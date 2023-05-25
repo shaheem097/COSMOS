@@ -11,7 +11,6 @@ const userpayment = require('../controller/user/payment')
 const useraddress= require('../controller/user/address')
 const userAuth = require('../authentication/userAuth');
 const coupon = require('../controller/user/coupon')
-const easyinvoice=require('easyinvoice')
 
 
 /* GET home page. */

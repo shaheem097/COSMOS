@@ -7,7 +7,7 @@ const nocache = require("nocache");
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 const session = require('express-session');
-const easyinvoice=require('easyinvoice')
+// const easyinvoice=require('easyinvoice')
 
 
 //mongoose
