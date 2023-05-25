@@ -1,0 +1,138 @@
+<%- include('../partials/user-header') %>
+
+    <main class="main">
+
+
+
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="row product-grid-3">
+                            <% response.forEach(function(response,index) { %>
+                                <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                    <div class="product-cart-wrap mb-30">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="/product/<%= response._id %>">
+                                                    <img class="default-img"
+                                                        src="/images/products/<%= response.image[0] %>" alt="">
+                                                    <img class="hover-img"
+                                                        src="/images/products/<%= response.image[1] %>" alt="">
+                                                </a>
+                                            </div>
+                                            <!-- <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal">
+                                            <i class="fi-rs-search"></i>
+                                        </a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html">
+                                            <i class="fi-rs-heart"></i>
+                                        </a>
+                                    </div> -->
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">
+                                                    <%=response.category%>
+                                                </a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">
+                                                    <%=response.productTitle%>
+                                                </a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>95%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>
+                                                    <%=response.price%>
+                                                </span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <div style="display: none;">
+                                                    <form action="/addtocart/<%=response._id %>" method="post">
+                                                        <input type="text" name="qty" value="1" style="width: 60px;"
+                                                            min="1">
+                                                        <button type="submit" id="submitbtn"></button>
+                                                    </form>
+                                                </div>
+                                                <% if (response.stock==0) { %>
+                                                    <a aria-label="Out of stock" aria-disabled="true"
+                                                        class="action-btn hover-up" id="cartbtn1">
+                                                        <i class="fi-rs-shopping-bag-add"></i>
+                                                    </a>
+                                                    <% } else { %>
+                                                        <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                            onclick="addToCart('<%= response._id %>')">
+                                                            <i class="fi-rs-shopping-bag-add"></i>
+                                                        </a>
+                                                        <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 primary-sidebar sticky-sidebar">
+                        <div class="widget-category mb-30">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                            <ul class="categories">
+                                <% cat.forEach(function(cat,index) { %>
+                                    <li><a href="/shop/<%=response.name%>">
+                                            <%=cat.name%>
+                                        </a></li>
+                                    <% }) %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% if (added) { %>
+                <div class="alert alert-success text-center d-none" id="success"
+                    style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px; font-size: 16px; font-weight: bold; border-radius: 5px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); text-align: center; background-color: #d4edda; color: #155724;">
+                    New item added to cart!
+                </div>
+                <% } %>
+                    <% if (exist) { %>
+                        <div class="alert alert-info text-center d-none" id="info"
+                            style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px; font-size: 16px; font-weight: bold; border-radius: 5px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); text-align: center; background-color: #d1ecf1; color: #0c5460;">
+                            Item already in cart!
+                        </div>
+                        <% } %>
+        </section>
+    </main>
+
+    <script>
+        function addToCart(prodId) {
+            console.log(prodId, "productid for ajax");
+            $.ajax({
+                url: `/addtocartfromshop/${prodId}`,
+                method: "GET",
+                success: (response) => {
+                    if (response.status) {
+                        console.log('kjbdewkjbfkbffk');
+                        $("#success").removeClass("d-none").show();
+                        setTimeout(function () {
+                            $("#success").hide();
+                        }, 3000);
+                    } else {
+                        location.href = "/login";
+                    }
+                },
+                error: (error) => {
+                    console.log(error);
+                }
+            });
+            console.log("sssssssssssssssss");
+        }
+    </script>
+    <script>
+
+    </script>
+    <%- include('../partials/user-footer') %>

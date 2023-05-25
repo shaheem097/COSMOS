@@ -1,0 +1,164 @@
+<%- include('../partials/adminHeader') %>
+
+    <section class="content-main">
+
+        <div class="row">
+
+            <div class="col-9">
+                <div class="content-header">
+                    <h2 class="content-title">Order</h2>
+
+
+
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- image card -->
+
+            <div class="row">
+                <% order.products.forEach(element=> { %>
+
+
+                    <div class="col-lg-3">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4 alt>
+                                    <%=element.productTitle.substring(0,16).concat('...') %>
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-upload">
+                                    <img src="/images/products/<%=element.image%> " alt="">
+                                    <h5>₹<%=(element.price).toLocaleString('en-IN') %>(x<%=element.qty %> ) </h5>
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+
+                        <!-- card end// -->
+
+                    </div>
+                    <% }) %>
+
+
+            </div>
+            <form action="/admin/updateorder/<%=order._id %>" method="post">
+                <!-- image card ends -->
+                <div class="col-lg-6 ">
+                    <div class="card mb-4 d-flex justify-content-center">
+                        <div class="card-header">
+                            <h4>Order details</h4>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="mb-4 col-lg-3">
+                                <label for="product_name" class="form-label">Total amount</label>
+                                <input type="text" placeholder="Title" class="form-control" name="title"
+                                    value="₹<%=order.amount %> " readonly>
+                                <label class="form-label">Payment method</label>
+                                <input name="description" placeholder="Description" class="form-control" rows="4"
+                                    value="<%=order.payment %>" readonly>
+                            </div>
+                            <div class="mb-4">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-4">
+                                        <% if (order.orderStatus!="Cancelled" ) { %>
+                                            <label class="form-label">Payment Status</label>
+                                            <div class="row gx-2 mb-3">
+
+                                                <select class="form-select" name="paymentStatus">
+                                                    <option value="<%=order.paymentStatus%>">
+                                                        <%=order.paymentStatus%>
+                                                    </option>
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="Successful">Successful</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                    <option value="Refunded">Refunded</option>
+                                                    <option value="Refund Processing">Refund Processing</option>
+                                                </select>
+                                            </div>
+
+                                            <label class="form-label">Order Status</label>
+                                            <div class="row gx-2 mb-3">
+
+                                                <select class="form-select" name="orderStatus" required>
+                                                    <option value="<%=order.orderStatus%>">
+                                                        <%=order.orderStatus%>
+                                                    </option>
+                                                    <option value="Placed">Placed</option>
+                                                    <option value="InTransit">In Transit</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                    <option value="delivered">Delivered</option>
+                                                    <option value="Return Request Cancelled">Return Request Cancelled
+                                                    </option>
+                                                    <option value="Return Request Accepted">Return Request Accepted
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                            <% } else { %>
+
+                                                <label class="form-label">Payment Status</label>
+                                                <div class="row gx-2 mb-3">
+
+                                                    <input class="form-control" type="text" name="" value="Cancelled"
+                                                        id="" readonly>
+                                                </div>
+                                                <label class="form-label">Order Status</label>
+                                                <div class="row gx-2 mb-3">
+
+                                                    <input class="form-control" type="text" value="Cancelled" readonly
+                                                        name="" id="">
+                                                </div>
+
+                                                <% } %>
+                                                    <br>
+
+                                                    <br>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+
+                                </div>
+
+                            </div>
+
+                            <% if (order.orderStatus!="Cancelled" ) { %>
+                                <button type="submit" class="btn btn-md rounded font-sm hover-up">Save changes</button>
+
+                                <% } else { %>
+                                    <a href="/admin/orders" class="btn btn-md bg-warning rounded font-sm hover-up">Go
+                                        back</a>
+                                    <% } %>
+
+
+
+                        </div>
+                    </div> <!-- card end// -->
+
+                </div>
+
+
+
+
+
+
+
+
+
+        </div>
+        </form>
+
+    </section>
+
+
+
+
+
+
+    <%- include('../partials/admin-footer') %>

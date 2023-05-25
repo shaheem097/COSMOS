@@ -1,0 +1,211 @@
+<%- include('../partials/user-header') %>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+      </div>
+    </div>
+  </div>
+
+  <div class="container py-5 text-center ">
+    <div class="row d-flex justify-content-center">
+      <div class="row">
+        <div class="col d-flex justify-content-center">
+
+        </div>
+      </div>
+      <div class="col-4 ">
+        <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+          <div class="padding_eight_all bg-white text-center ">
+            <div class="heading_s1">
+
+              <% if (locals.err) { %>
+                <p class="text-danger">Invalid Phone Number</p>
+                <% } %>
+
+                  <% if (locals.signup) { %>
+                    <p class="text-success">Sign up complete, Please login</p>
+                    <% } %>
+                      <% if (locals.block) { %>
+                        <p class="text-danger">Please contact admin, You have been blocked by the admin</p>
+                        <% } %>
+
+                          <div id="number-verified" class="p-conf text-center">NUMBER VERIFIED</div>
+                          <div id="otp-error" class="n-conf text-center">OTP ERROR</div>
+                          <div id="number-not-registered" class="r-conf text-center">NUMBER NOT REGISTERED</div>
+
+
+
+
+                          <h3 class="mb-30">Login with OTP</h3>
+            </div>
+            <form>
+              <div class="mb-2">
+                <div class="input-group">
+                  <input style="border-radius: 14px;
+                                                  border-color: #85b6b3;" class="form-control" name="Phone"
+                    placeholder="Enter phone number" type="text" id="phone" />
+                  <button style="width: 140px; background-color: rgb(235, 235, 235);
+                                                    width: 120px;
+                                                    height: 49px;
+                                                    background-color: rgb(247 240 240 / 0%);
+                                                    border-radius: 20px;" type="button" class="btn btn-primary "
+                    id="send" onclick="phoneAuth()">
+                    <b style="color: black;    font-weight: bold;
+                                                    ">Get OTP</b>
+                  </button>
+                </div>
+              </div>
+              <div id="recaptcha-container"></div>
+              <!-- form-group// -->
+              <div class="mb-2">
+                <div class="input-group" id="varifier">
+                  <input style="    border-radius: 14px;
+                                                  border-color: #85b6b3;" class="form-control" name="OTP"
+                    placeholder="Enter OTP" type="text" id="otp" />
+                  <button style="   width: 120px;
+                                                    height: 49px;
+                                                    background-color: rgb(247 240 240 / 0%);
+                                                    border-radius: 20px;
+                                                " type="button" class="btn btn-primary" onclick="codeverify()">
+                    <b style="color: black;    font-weight: bold;">verify</b>
+                    <div class="mb-4 mt-4">
+                      <button type="submit" class="btn btn-primary w-100" id="submit-btn" onclick="gotohome()" disabled>
+                        login
+                      </button>
+                    </div>
+                    <p>Don't have an account? <a href="/signup">Signup!</a></p>
+            </form>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+  </div>
+
+  <script>
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0jgaa3IdG6HCiXVxEwRzNHbMT6Aaxb18",
+      authDomain: "cosmos-d77a3.firebaseapp.com",
+      projectId: "cosmos-d77a3",
+      storageBucket: "cosmos-d77a3.appspot.com",
+      messagingSenderId: "132735964875",
+      appId: "1:132735964875:web:bfdb61f5df528baa522d4e",
+      measurementId: "G-FCP346ZFS4"
+    };
+    firebase.initializeApp(firebaseConfig);
+    // render recaptcha verifier
+
+    function render() {
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+      recaptchaVerifier.render();
+    }
+
+    function phoneAuth() {
+      let number = document.getElementById('phone').value;
+
+      let phoneNumber = "+91" + number;
+
+      $.ajax({
+        url: '/checkPhoneNumber',
+        method: 'POST',
+        data: { number: number },
+        success: function (response) {
+          const { registered } = response;
+
+          if (registered) {
+            // Number is registered, proceed with sending OTP
+            render();
+            firebase.auth().signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
+              .then(function (confirmationResult) {
+                window.confirmationResult = confirmationResult;
+                coderesult = confirmationResult;
+                console.log('OTP Sent');
+              })
+              .catch(function (error) {
+                // Error in sending OTP
+
+                console.log(error.message);
+              });
+          } else {
+            $("#number-not-registered").show();
+
+            // Hide the div after 2 seconds
+            setTimeout(function () {
+              $("#number-not-registered").hide();
+            }, 2000);
+
+            // Number is not registered, display appropriate message to the user
+            console.log('Number is not registered');
+          }
+        },
+        error: function (error) {
+          console.log('Error checking phone number:', error);
+        }
+      });
+    }
+
+
+    function codeverify() {
+      var code = document.getElementById('otp').value;
+      confirmationResult.confirm(code)
+        .then(function (result) {
+          // Phone number verified successfully
+          $("#number-verified").show();
+
+          // Hide the div after 2 seconds
+          setTimeout(function () {
+            $("#number-verified").hide();
+          }, 2000);
+
+
+          document.getElementById('submit-btn').removeAttribute('disabled');
+        })
+        .catch(function (error) {
+          // Invalid verification code
+
+          $("#otp-error").show();
+
+          // Hide the div after 2 seconds
+          setTimeout(function () {
+            $("#otp-error").hide();
+          }, 2000);
+
+          // Disable the submit button
+          document.getElementById('submit-btn').setAttribute('disabled', 'disabled');
+        });
+    }
+
+  </script>
+  <script>
+
+
+    function gotohome() {
+      let phone = document.getElementById('phone').value;
+      console.log(phone, "aaaaaaaaaaaaaaaaaaaaaaaaa");
+      $.ajax({
+        url: '/loginwithotp',
+        type: 'post',
+        data: { phone: phone },
+        success: function (response) {
+          const { login } = response;
+
+          if (login) {
+            window.location.href = '/'
+          } else {
+            window.location.href = 'otplogin-page';
+          }
+        }, error: function (error) {
+          // Handle error response
+          console.log('Error in redirecting to post-login:', error);
+        }
+      })
+
+    }
+  </script>
+
+  <%- include('../partials/user-footer') %>

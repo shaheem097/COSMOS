@@ -1,0 +1,208 @@
+<%- include('../partials/user-header') %>
+
+
+    <!-- 
+<div class="single-hero-slider single-animation-wrap">
+    <div class="container">
+        <div class="row align-items-center slider-animated-1">
+           
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="single-slider-img single-slider-img-1">
+                    <img class="animated slider-1-1" src="assets/imgs/banner/cosmosbanner1-3.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div> 
+
+</div>-->
+
+    <% banner.forEach(element=> { %>
+
+
+
+        <section class="home-slider position-relative pt-25 pb-20">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="position-relative">
+                            <div class="hero-slider-1 style-3 dot-style-1 dot-style-1-position-1">
+                                <div class="single-hero-slider single-animation-wrap">
+                                    <div class="container">
+                                        <div class="slider-1-height-3 slider-animated-1">
+                                            <div class="hero-slider-content-2">
+                                                <h4 class="animated">
+                                                    <%=element.line1 %>
+                                                </h4>
+                                                <h2 class="animated fw-900">
+                                                    <%=element.line2 %>
+                                                </h2>
+                                                <h1 class="animated fw-900 text-brand">
+                                                    <%=element.line3 %>
+                                                </h1>
+                                                <p class="animated">Save more with coupons & up to 70% off</p>
+                                                <a class="animated btn btn-brush btn-brush-3" href="<%=element.link %>"
+                                                    tabindex="0">
+                                                    <%=element.button %>
+                                                </a>
+                                            </div>
+                                            <div class="slider-img">
+                                                <img class="animated mt-5" src="/images/products/<%=element.image[0]%> "
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-hero-slider single-animation-wrap">
+                                    <div class="container">
+                                        <div class="slider-1-height-3 slider-animated-1">
+                                            <div class="hero-slider-content-2">
+                                                <h4 class="animated">
+                                                    <%=element.line1 %>
+                                                </h4>
+                                                <h2 class="animated fw-900">
+                                                    <%=element.line2 %>
+                                                </h2>
+                                                <h1 class="animated fw-900 text-brand">
+                                                    <%=element.line3 %>
+                                                </h1>
+                                                <p class="animated">Save more with coupons & up to 70% off</p>
+                                                <a class="animated btn btn-brush btn-brush-3" href="<%=element.link %>"
+                                                    tabindex="0">
+                                                    <%=element.button %>
+                                                </a>
+                                            </div>
+                                            <div class="slider-img">
+                                                <img class="animated mt-5" src="/images/products/<%=element.image[1]%> "
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="slider-arrow hero-slider-1-arrow style-3"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 d-md-none d-lg-block">
+                        <div class="banner-img banner-1 wow fadeIn  animated home-3">
+                            <img class="border-radius-10" src="assets/imgs/banner/cosmosbanner1-2.jpg" alt="">
+                            <div class="banner-text">
+                                <span>Accessories</span>
+                                <h4>Save 17% on <br>Autumn Hat</h4>
+                                <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="banner-img banner-2 wow fadeIn  animated mb-0">
+                            <img class="border-radius-10" src="assets/imgs/banner/cosmosbanner1-2.jpg" alt="">
+                            <div class="banner-text">
+                                <span>Smart Offer</span>
+                                <h4>Save 20% on <br>Eardrop</h4>
+                                <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <% }) %>
+            <section class="featured section-padding position-relative">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+
+                            <div class="banner-features wow fadeIn animated hover-up">
+                                <img src="assets/imgs/theme/icons/feature-1.png" alt="">
+                                <h4 class="bg-1">Free Shipping</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                            <div class="banner-features wow fadeIn animated hover-up">
+                                <img src="assets/imgs/theme/icons/feature-2.png" alt="">
+                                <h4 class="bg-3">Online Order</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                            <div class="banner-features wow fadeIn animated hover-up">
+                                <img src="assets/imgs/theme/icons/feature-3.png" alt="">
+                                <h4 class="bg-2">Save Money</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                            <div class="banner-features wow fadeIn animated hover-up">
+                                <img src="assets/imgs/theme/icons/feature-4.png" alt="">
+                                <h4 class="bg-4">Promotions</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                            <div class="banner-features wow fadeIn animated hover-up">
+                                <img src="assets/imgs/theme/icons/feature-5.png" alt="">
+                                <h4 class="bg-5">Happy Sell</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                            <div class="banner-features wow fadeIn animated hover-up">
+                                <img src="assets/imgs/theme/icons/feature-6.png" alt="">
+                                <h4 class="bg-6">24/7 Support</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="single-hero-slider single-animation-wrap">
+                <div class="container">
+                    <div class="row align-items-center slider-animated-1">
+                        <!-- <div class="col-lg-5 col-md-6"> -->
+                        <!-- <div class="hero-slider-content-2">
+                    <h4 class="animated">Trade-in offer</h4>
+                    <h2 class="animated fw-900">Supper value deals</h2>
+                    <h1 class="animated fw-900 text-brand">On all products</h1>
+                    <p class="animated">Save more with coupons & up to 70% off</p>
+                    <a class="animated btn btn-brush btn-brush-3" href="/shop"> Shop Now </a>
+                </div> -->
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="single-slider-img single-slider-img-1">
+                            <img class="animated slider-1-1" src="assets/imgs/banner/cosmosbanner1-2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section-padding">
+                <div class="container">
+                    <h3 class="section-title mb-20 wow fadeIn animated"><span>Featured</span> Brands</h3>
+                    <div class="carausel-6-columns-cover position-relative wow fadeIn animated">
+                        <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow"
+                            id="carausel-6-columns-3-arrows"></div>
+                        <div class="carausel-6-columns text-center" id="carausel-6-columns-3">
+                            <div class="brand-logo">
+                                <img class="img-grey-hover" src="assets/imgs/banner/brand-1.png" alt="">
+                            </div>
+                            <div class="brand-logo">
+                                <img class="img-grey-hover" src="assets/imgs/banner/brand-2.png" alt="">
+                            </div>
+                            <div class="brand-logo">
+                                <img class="img-grey-hover" src="assets/imgs/banner/brand-3.png" alt="">
+                            </div>
+                            <div class="brand-logo">
+                                <img class="img-grey-hover" src="assets/imgs/banner/brand-4.png" alt="">
+                            </div>
+                            <div class="brand-logo">
+                                <img class="img-grey-hover" src="assets/imgs/banner/brand-5.png" alt="">
+                            </div>
+                            <div class="brand-logo">
+                                <img class="img-grey-hover" src="assets/imgs/banner/brand-6.png" alt="">
+                            </div>
+                            <div class="brand-logo">
+                                <img class="img-grey-hover" src="assets/imgs/banner/brand-3.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+
+            <%- include('../partials/user-footer') %>

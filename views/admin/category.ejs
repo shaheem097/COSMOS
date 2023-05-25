@@ -1,0 +1,185 @@
+<%- include('../partials/adminHeader') %>
+
+
+
+
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Categories </h2>
+                <p>Add, edit or delete a category</p>
+
+
+                <% if (locals.del) { %>
+                    <div class="alert alert-danger text-center" role="alert" id="alert">
+                        Category deleted!
+                    </div>
+                    <% } %>
+
+                        <% if (locals.del0) { %>
+
+                            <div class="alert alert-danger text-center" role="alert" id="alert">
+                                Category can't be deleted!
+                            </div>
+                            <% } %>
+
+
+                                <% if (locals.err) { %>
+
+                                    <div class="alert alert-danger text-center" role="alert" id="alert">
+                                        Category Already exists!
+                                    </div>
+                                    <% } %>
+
+                                        <% if (locals.newcat) { %>
+
+                                            <div class="alert alert-success text-center" role="alert" id="alert">
+                                                New category added.
+                                            </div>
+                                            <% } %>
+
+                                                <% if (locals.error) { %>
+
+                                                    <div class="alert alert-success text-center" role="alert"
+                                                        id="alert">
+                                                        delete category with associated productsCannot
+                                                    </div>
+                                                    <% } %>
+
+            </div>
+
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <form action="/admin/addcategory" method="post">
+                            <div class="mb-4">
+                                <label class="form-label">Name</label>
+                                <input type="text" placeholder="Name" id="name" class="form-control" name="name"
+                                    required />
+                            </div>
+
+
+                            <div class="mb-4">
+                                <label class="form-label">Description</label>
+                                <textarea placeholder="Description" id="des" name="description" class="form-control"
+                                    required></textarea>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" id="btn" type="submit">Create category</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="table-responsive">
+
+                            <table class="table table-hover display">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            <div class="form-check">
+
+                                            </div>
+                                        </th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col" class="text-center" colspan="2">Actions</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <% category.forEach(element=> { %>
+
+
+                                        <tr>
+                                            <td class="text-center">
+                                                <div class="form-check">
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <%=element._id %>
+                                            </td>
+                                            <td>
+                                                <%=element.name %>
+                                            </td>
+                                            <td>
+                                                <%=element.description %>
+                                            </td>
+
+
+                                            <td class="text-end" rowspan="1">
+                                                <a class="btn btn-primary" href="/admin/editcategory/<%=element._id  %>"
+                                                    alt="Edit"><i class="ri-edit-2-line"></i></a>
+                                                <!-- dropdown //end -->
+                                            </td>
+                                            <td>
+
+
+
+                                                <a class="btn btn-danger" alt="Delete"
+                                                    href="/admin/deletecategory/<%=element._id  %>"
+                                                    onclick="confirmDelete(event)"><i
+                                                        class="ri-delete-bin-6-line"></i></a>
+
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div> <!-- .col// -->
+                </div> <!-- .row // -->
+            </div> <!-- card body .// -->
+        </div> <!-- card .// -->
+    </section>
+    <script>
+        function confirmDelete(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to delete the category?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms deletion, proceed with the delete request
+                    window.location.href = event.target.href;
+                    console.log(event.target.href);
+                }
+            });
+        }
+
+
+    </script>
+
+
+
+    <script>
+        document.getElementById('btn').onclick = () => {
+            let name = document.getElementById('name').value
+            document.getElementById('name').value = name.trim()
+
+            let des = document.getElementById('des').value
+            document.getElementById('des').value = des.trim()
+        }
+    </script>
+    <script>
+        function hide(id) {
+            setTimeout(() => {
+                document.getElementById(id).style.display = "none"
+            }, 1300)
+        }
+
+        hide('alert')
+    </script>
+
+    <%- include('../partials/admin-footer') %>

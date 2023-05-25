@@ -1,0 +1,179 @@
+<%- include('../partials/adminHeader') %>
+
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Coupons</h2>
+                <p>Add, edit or delete a Coupon</p>
+
+                <% if (cadded) { %>
+                    <div class="alert alert-success text-center" role="alert" id="alert">
+                        New coupon successfully added!
+                    </div>
+
+
+                    <% } %>
+
+                        <% if (cdel) { %>
+                            <div class="alert alert-danger text-center" role="alert" id="alert">
+                                Coupon successfully deleted!
+                            </div>
+
+
+                            <% } %>
+
+                                <% if (cerr) { %>
+                                    <div class="alert alert-warning text-center" role="alert" id="alert">
+                                        Coupon Code Already Exists
+                                    </div>
+
+
+                                    <% } %>
+
+
+
+            </div>
+
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <form action="/admin/addcoupon" method="post" onsubmit="return couponvalidateForm()">
+
+                            <div class="mb-4">
+                                <label class="form-label">Coupon Code</label>
+                                <input type="text" placeholder="Enter here" id="code" class="form-control" name="code"
+                                    required />
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Discount%</label>
+                                <input type="number" placeholder="Enter discount" id="discount" class="form-control"
+                                    name="discount" required />
+                                <small id="discountError" style="color: red;"></small>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Limit Amount</label>
+                                <input type="number" placeholder="Enter limit amount" id="limit" class="form-control"
+                                    name="limit" required />
+                                <small id="limitError" style="color: red;"></small>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Minimum Amount</label>
+                                <input type="number" placeholder="Enter minimum amount" id="min" class="form-control"
+                                    name="min" required />
+                                <small id="minError" style="color: red;"></small>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Expiry Date</label>
+                                <input type="date" placeholder="Select the date" id="expire" class="form-control"
+                                    name="expire" required />
+                                <small id="expireError" style="color: red;"></small>
+                            </div>
+
+
+
+                            <div class="d-grid">
+                                <button class="btn btn-primary" id="btn" type="submit">Add Coupon</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Coupon Code</th>
+                                        <th>Discount%</th>
+                                        <th>Limit Amount</th>
+                                        <th>Minimum Amount</th>
+                                        <th>Expiry Date</th>
+                                        <th class="text-center" colspan="2">Actions</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <% coupons.forEach(element=> { %>
+
+                                        <% let x=1 %>
+                                            <% let date=element.expire+"" %>
+
+                                                <tr>
+
+                                                    <td>
+                                                        <%=x++ %>
+                                                    </td>
+                                                    <td>
+                                                        <%=element.code %>
+                                                    </td>
+                                                    <td>
+                                                        <%=element.discount %>
+                                                    </td>
+                                                    <td>
+                                                        <%=element.limit %>
+                                                    </td>
+                                                    <td>
+                                                        <%=element.min %>
+                                                    </td>
+                                                    <td>
+                                                        <%=date.substring(0,16) %>
+                                                    </td>
+                                                    <td>
+
+                                                        <a href="/admin/deletecoupon/<%=element._id %>"
+                                                            onclick="return confirm('Are you sure you want to delete this coupon? Click ok to confirm');"
+                                                            class="btn bg-danger"><i
+                                                                class="ri-delete-bin-5-line"></i></a>
+                                                    </td>
+
+
+
+                                                </tr>
+
+
+
+
+
+
+
+                                                <% }) %>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div> <!-- .col// -->
+                </div> <!-- .row // -->
+            </div> <!-- card body .// -->
+        </div> <!-- card .// -->
+    </section>
+
+
+
+    <script>
+        document.getElementById('btn').onclick = () => {
+            let name = document.getElementById('name').value
+            document.getElementById('name').value = name.trim()
+
+            let des = document.getElementById('des').value
+            document.getElementById('des').value = des.trim()
+        }
+    </script>
+    <script>
+        function hide(id) {
+            setTimeout(() => {
+                document.getElementById(id).style.display = "none"
+            }, 1300)
+        }
+
+        hide('alert')
+    </script>
+
+
+    <%- include('../partials/admin-footer') %>

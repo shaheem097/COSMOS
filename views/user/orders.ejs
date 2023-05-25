@@ -1,0 +1,140 @@
+<%- include('../partials/user-header') %>
+
+
+    <% let total=0 %>
+        <% data.forEach(element=> { %>
+            <% total=total + Number(element.price)*element.qty %>
+                <% }) %>
+
+                    <div class="tab-pane fade active show" id="dashboard" role="tabpanel"
+                        aria-labelledby="dashboard-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Order Details</h5>
+                            </div>
+                            <div class="card-body">
+
+
+                                <table id="myTable2">
+                                    <thead>
+                                        <th>Delivery Address</th>
+                                        <th>
+                                            <%=odata.address %>
+                                        </th>
+                                        <th></th>
+
+
+                                    </thead>
+                                    <thead>
+
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Product</th>
+
+                                            <th>Price</th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <% odata.products.forEach(element=> { %>
+
+                                            <tr>
+                                                <td><img src="/images/products/<%=element.image%>" style="width:40px;"
+                                                        alt=""></td>
+                                                <td>
+                                                    <%=element.productTitle %> x <%=element.qty %>
+                                                </td>
+
+                                                <td>
+                                                    <%=(Math.round((Number(element.price)*10)
+                                                        /10)).toLocaleString('en-IN') %>
+                                                </td>
+
+
+
+                                            </tr>
+                                            <% }) %>
+
+
+
+                                    </tbody>
+                                    <thead>
+
+
+                                        <th>Coupon</th>
+                                        <th>Total</th>
+                                        <th>Payment amount</th>
+
+
+                                    </thead>
+                                    <tbody>
+                                        <td>
+                                            <%=odata.coupon %>
+                                        </td>
+                                        <td>
+                                            <%=Math.round(total) %>
+                                        </td>
+                                        <% let pay=odata.amount %>
+                                            <% let pay1=Math.round(pay * 100) / 100%>
+                                                <td>
+                                                    <%=pay1%>
+                                                </td>
+
+
+                                    </tbody>
+                                </table>
+                                <% if (odata.orderStatus=="Cancelled" ) { %>
+
+                                    <a href="#" class="btn bg-danger disabled"> Order Cancelled</a>
+                                    <% if (odata.paymentStatus=="refunded" ) { %>
+                                        <p class="text-info"><strong>Payment Refunded. Might take upto 24hrs to reflect
+                                                back in your bank account.</strong></p>
+
+                                        <% } %>
+                                            <% } else if (odata.orderStatus=="delivered" ) { %>
+                                                <a href="/returnorder/<%=odata._id %> " class="btn bg-warning"
+                                                    onclick="return confirm('Are you sure you want to return this order? Click ok to confirm');">Request
+                                                    Return</a>
+                                                <p class="text-warning"><strong>Return Request will only be accepted
+                                                        within 3days of delivery</strong></p>
+
+                                                <% } else if (odata.orderStatus=="return requested" ) { %>
+
+                                                    <a href="#" class="btn bg-info disabled">Return Requested</a>
+                                                    <p class="text-info"><strong>Your return request is being
+                                                            processed,<br> you'll be notified about the further update
+                                                            <br> via your phone +91<%=userdata.phone %> </strong></p>
+                                                    <% } else if (odata.orderStatus=="Return Request Cancelled" ) { %>
+
+
+                                                        <a href="#" class="btn bg-danger disabled">Return Request
+                                                            Cancelled</a>
+                                                        <p class="text-danger"><strong>Sorry your return request have
+                                                                been Rejected. </strong></p>
+
+                                                        <% } else if (odata.orderStatus=="Return Request Accepted" ) {
+                                                            %>
+
+
+                                                            <a href="#" class="btn bg-info disabled">Return Request
+                                                                Accepted</a>
+                                                            <p class="text-info"><strong>Your return request have been
+                                                                    accepted,<br> Our delivery partner will contact you
+                                                                    via <br>your phone +91<%=userdata.phone %> for
+                                                                        pickup.</strong></p>
+
+
+                                                            <% } else { %>
+                                                                <a href="/cancelorder/<%=odata._id %>"
+                                                                    onclick="return confirm('Are you sure you want to cancel this order? Click ok to confirm');"
+                                                                    class="btn bg-danger">Cancel Order</a>
+                                                                <% } %>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <%- include('../partials/user-footer') %>

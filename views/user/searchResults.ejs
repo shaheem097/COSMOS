@@ -1,0 +1,170 @@
+<%- include('../partials/user-header') %>
+    <!--SearchBar  -->
+    <div class="header-right  d-md-block d-lg-none d-sm-block ">
+        <div class="container">
+            <div class="search-style-2">
+                <form action="/search" method="post">
+
+                    <div class="container"> <input id="searchbar1" onkeyup="search_product1()" type="text" name="search"
+                            placeholder="Search.." onkeydown="if (event.keyCode === 13) runSearch1()">
+                        <!-- demo list -->
+
+                        <ul id='list1'
+                            style="display: none;z-index:1;position: absolute;right:0.1px;background-color: rgb(255, 255, 255);width: 100%;border-style: solid;border-radius: 2px;border-color: rgba(0, 0, 0, 0.267);border-width: 0.5px;"
+                            class="list-group">
+
+
+                            <% locals.allproducts.forEach(element=> { %>
+                                <li class="products1" class="list-group-item"
+                                    style="border-width:0.5px;border-style: solid;border-color: rgba(0, 0, 0, 0.267);">
+                                    <img src="/images/products/<%=element.image[0] %>" style="width: 75px;" alt=""><a
+                                        href="/product/<%=element._id %>" style="position: relative;">
+                                        <%=element.productTitle %>
+                                    </a>
+                                </li>
+
+                                <% }) %>
+
+
+                                    <!-- More list items -->
+                        </ul>
+                        <ul id="no1" style="display: none;">
+                            <li>No Result Found...</li>
+                        </ul>
+                    </div>
+                    <button type="submit" id="search" hidden>Search</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Searchbar -->
+
+    <% if (empty) { %>
+        <style>
+            body {
+                background-color: #fbfbfb;
+            }
+        </style>
+
+        <% } %>
+
+            <div class="page-header breadcrumb-wrap">
+                <div class="container">
+                    <div class="breadcrumb">
+                        <a href="/" rel="nofollow">Home</a>
+                        <span></span> Search
+                        <span></span> Search Result for "<%=key %>"
+                    </div>
+                </div>
+            </div>
+
+
+            <% if (empty) { %>
+                <div class="container">
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            <img src="/stylesheets/assets/imgs/404.webp" alt="" style="width: 750px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            <a href="/shop" class="btn btn-primary">Go Back</a>
+                        </div>
+                    </div>
+                </div>
+                <% } else { %>
+
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+
+
+
+                                <div class="container mt-5">
+                                    <div class="tab-content wow fadeIn animated" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="tab-one" role="tabpanel"
+                                            aria-labelledby="tab-one">
+                                            <div class="row product-grid-3">
+
+                                                <% data.forEach(element=> { %>
+
+                                                    <div class="col-lg-3 col-md-3 col-12 col-sm-6 mt-5">
+                                                        <div class="product-cart-wrap">
+                                                            <div class="product-img-action-wrap">
+                                                                <div class="product-img product-img-zoom">
+                                                                    <a href="/product/<%=element._id  %> ">
+                                                                        <img class="default-img"
+                                                                            src="/images/products/<%=element.image[0]%> "
+                                                                            alt="">
+                                                                        <img class="hover-img"
+                                                                            src="/images/products/<%=element.image[0]%> "
+                                                                            alt="">
+                                                                    </a>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="product-content-wrap">
+                                                                <div class="product-category">
+                                                                    <a href="/product/<%=element._id  %> ">
+                                                                        <%=element.category%>
+                                                                    </a>
+                                                                </div>
+                                                                <h2><a href="/product/<%=element._id  %> ">
+                                                                        <%=element.productTitle.substring(0,16).concat('...')%>
+                                                                    </a></h2>
+                                                                <div class="rating-result" title="90%">
+                                                                    <span>
+                                                                        <span>86%</span>
+                                                                    </span>
+                                                                </div>
+
+                                                                <div class="product-price">
+                                                                    <span>₹<%=element.price%></span>
+                                                                    <!-- <span class="old-price">$245.8</span> -->
+                                                                </div>
+                                                                <div class="product-action-1 show">
+
+                                                                    <div style="display: none;">
+                                                                        <form action="/addtocart/<%=element._id %>"
+                                                                            method="post">
+                                                                            <input type="text" name="qty" value="1"
+                                                                                style="width: 60px;" min="1">
+                                                                            <button type="submit"
+                                                                                id="submitbtn"></button>
+                                                                        </form>
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% }) %>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                    <% } %>
+
+
+
+
+
+
+
+
+                        <%- include('../partials/user-footer') %>

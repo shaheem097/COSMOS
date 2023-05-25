@@ -1,0 +1,157 @@
+<%- include('../partials/adminHeader') %>
+
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /> -->
+
+
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Product List </h2>
+                <!-- <p>List of all products</p> -->
+
+            </div>
+
+
+
+
+        </div>
+        <% if (update) { %>
+
+            <div class="alert alert-success text-center" role="alert" id="alert">
+                Changes saved!
+            </div>
+
+            <% } %>
+
+                <% if (locals.added) { %>
+                    <!-- <p class="text-success">Product added</p> -->
+                    <div class="alert alert-success text-center" role="alert" id="alert">
+                        New product successfully added!
+                    </div>
+                    <% } %>
+
+                        <% if (locals.del) { %>
+                            <!-- <p class="text-success">Product added</p> -->
+                            <div class="alert alert-danger text-center" role="alert" id="alert">
+                                Product successfully deleted!
+                            </div>
+                            <% } %>
+                                <div class="card mb-4">
+
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" id="myTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th>Image</th>
+                                                        <th scope="col">Product Name</th>
+                                                        <th scope="col">Description</th>
+                                                        <th scope="col">Price</th>
+                                                        <th scope="col">Category</th>
+                                                        <th scope="col">Stock</th>
+                                                        <th scope="col" class="text-start" style="width: 7rem;"> Action
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% let i=1 %>
+                                                        <% data.forEach(element=> { %>
+
+
+                                                            <tr>
+                                                                <td>
+                                                                    <%= i++ %>
+                                                                </td>
+                                                                <td><img src="/images/products/<%=element.image[0] %> "
+                                                                        style="width:30px;height:30px;" alt=""></td>
+                                                                <td><b>
+                                                                        <%=element.productTitle %>
+                                                                    </b></td>
+
+
+                                                                <td>
+                                                                    <%=element.description.substring(0,16).concat('...')
+                                                                        %><template class="__cf_email__"
+                                                                            data-cfemail="aec3cfdcd8c7c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</template>
+                                                                </td>
+                                                                <td>
+                                                                    <%=element.price %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=element.category %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=element.stock %>
+                                                                </td>
+                                                                <td class="text-end">
+                                                                    <a href="/admin/editproducts/<%=element._id  %> "
+                                                                        title="EDIT"
+                                                                        class="btn btn-md rounded font-sm"><i
+                                                                            class="ri-edit-2-line"></i></a>
+
+
+
+                                                                    <a class="btn btn-danger" alt="Delete"
+                                                                        href="/admin/deleteproduct/<%=element._id  %>"
+                                                                        onclick="confirmDelete(event)"><i
+                                                                            class="ri-delete-bin-6-line"></i></a>
+                                                                    <!-- <a href="/admin/addoffers/<%=element._id %> " title="ADD OFFER"  class="btn btn-md bg-info rounded font-sm"><i class="ri-percent-line"></i></a> -->
+
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <% }) %>
+
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                        <!-- table-responsive //end -->
+                                    </div>
+                                    <!-- card-body end// -->
+                                </div> <!-- card end// -->
+
+    </section>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+
+    <script>
+        function hide(id) {
+            setTimeout(() => {
+                document.getElementById(id).style.display = "none"
+            }, 1300)
+        }
+
+        hide('alert')
+    </script>
+    <script>
+        function confirmDelete(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to delete the Product ",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms deletion, proceed with the delete request
+                    window.location.href = event.target.href;
+                }
+            })
+        }
+
+    </script>
+
+
+    <%- include('../partials/admin-footer') %>

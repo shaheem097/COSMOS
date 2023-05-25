@@ -1,0 +1,118 @@
+<%- include('../partials/adminHeader') %>
+
+
+
+    <section class="content-main">
+        <form action="/admin/banner_submit" method="post" enctype="multipart/form-data">
+            <div class="row">
+
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Banners</h2>
+
+
+
+                        <div>
+
+                            <% if (banneradded) { %>
+                                <!-- <p class="text-success">Product added</p> -->
+                                <div class="alert alert-success" role="alert" id="alert">
+                                    New banner successfully added!
+                                </div>
+                                <% } %>
+
+                        </div>
+                    </div>
+                    <a href="/admin/banner" class="btn rounded btn-primary mb-3">View Current Banners</a>
+                    <br>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Basic</h4>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Title</label>
+                                <input type="text" placeholder="Title" class="form-control" name="title" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Line 1</label>
+                                <input type="text" placeholder="Line1" class="form-control" name="line1" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Line 2</label>
+                                <input type="text" placeholder="Optional" class="form-control" name="line2">
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Line 3</label>
+                                <input type="text" placeholder="Optional" class="form-control" name="line3">
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Button Title</label>
+                                <input type="text" placeholder="Button Title" class="form-control" name="button"
+                                    required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Link</label>
+                                <input type="text" placeholder="Button Title" class="form-control" name="link" required>
+                            </div>
+
+
+
+
+                            <button type="submit" onclick="hideDiv()"
+                                class="btn btn-md rounded font-sm hover-up">Add</button>
+
+                        </div>
+                    </div> <!-- card end// -->
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <img src="/admin-assets/imgs/theme/upload.svg" alt="" id="myImg">
+                                <input class="form-control" onchange="function5(event)" name="image" type="file"
+                                    required>
+
+                            </div>
+                        </div>
+                    </div> <!-- card end// -->
+
+                    <!-- card end// -->
+
+
+
+                </div>
+
+
+
+
+            </div>
+        </form>
+
+    </section>
+
+
+    <script>
+
+        function hideDiv() {
+            document.getElementById('alert').style.display = 'none';
+        }
+
+        setTimeout(hideDiv, 1200); // Hide the div after 3 seconds (3000 milliseconds)
+        function function5(event) {
+
+            document.getElementById('myImg').src = URL.createObjectURL(event.target.files[0])
+        }
+    </script>
+
+
+
+
+    <%- include('../partials/admin-footer') %>

@@ -1,0 +1,139 @@
+<%- include('../partials/adminHeader') %>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Banners List </h2>
+                <!-- <p>List of all products</p> -->
+                <a href="/admin/newbanner" class="btn rounded btn-primary">Add New Banner</a>
+
+            </div>
+
+            <% if (locals.added) { %>
+                <!-- <p class="text-success">Product added</p> -->
+                <div class="alert alert-success" role="alert" id="alert">
+                    New Banner successfully added!
+                </div>
+                <% } %>
+
+                    <% if (locals.del) { %>
+                        <!-- <p class="text-success">Product added</p> -->
+                        <div class="alert alert-danger" role="alert" id="alert">
+                            Banner successfully deleted!
+                        </div>
+                        <% } %>
+
+
+
+
+        </div>
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="myTable1">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Lines</th>
+                                <th scope="col">Button Titile</th>
+                                <!-- <th scope="col">Category</th>
+                            <th scope="col">Stock</th> -->
+                                <th scope="col" class=""> Action </th>
+                            </tr>
+                        </thead>
+                        <% let i=1 %>
+                            <% data.forEach(element=> { %>
+
+
+                                <tbody>
+
+
+
+                                    <tr>
+                                        <td>
+                                            <%=i++ %>
+                                        </td>
+                                        <td>
+                                            <img src="/images/products/<%=element.image %> " alt=""
+                                                style="width: 70px;position: relative;top:8px">
+                                        </td>
+
+
+
+                                        <td>
+                                            <p>
+                                                <%=element.title %>
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p>
+                                                <%=element.line1 %>
+                                            </p>
+                                            <p>
+                                                <%=element.line2 %>
+                                            </p>
+                                            <p>
+                                                <%=element.line3 %>
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p>
+                                                <%=element.button %>
+                                            </p>
+                                        </td>
+
+
+                                        <td class="text-right">
+                                            <a href="/admin/deletebanner/<%= element._id %>"
+                                                onclick="return confirm('Are you sure you want to delete this item?');"
+                                                class="btn btn-md rounded font-sm"
+                                                style="background-color: rgb(188, 4, 4);">
+                                                <i class="ri-delete-bin-5-line"></i>
+                                            </a>
+                                        </td>
+
+
+
+
+
+                                    </tr>
+
+
+
+                                </tbody>
+                                <% }) %>
+                    </table>
+                </div> <!-- table-responsive //end -->
+            </div> <!-- card-body end// -->
+        </div> <!-- card end// -->
+
+    </section>
+
+
+    <script>
+
+        function hideDiv() {
+            document.getElementById('alert').style.display = 'none';
+        }
+
+        setTimeout(hideDiv, 1000); // Hide the div after 3 seconds (3000 milliseconds)
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+
+
+
+    <%- include('../partials/admin-footer') %>

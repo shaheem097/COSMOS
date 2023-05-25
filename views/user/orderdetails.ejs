@@ -1,0 +1,615 @@
+<%- include('../partials/user-header') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+
+
+
+    <main class="main">
+       
+        </div>
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-10 m-auto">
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="dashboard-menu">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/profile" aria-controls="dashboard"
+                                                aria-selected="false"><i
+                                                    class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="/profile" aria-controls="orders"
+                                                aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/profile" aria-controls="address"
+                                                aria-selected="true"><i class="fi-rs-marker mr-10"></i>My Address</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/profile" aria-controls="account-detail"
+                                                aria-selected="true"><i class="fi-rs-user mr-10"></i>Account details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/logout"><i
+                                                    class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- total -->
+                            <% let total=0%>
+                                <% odata.products.forEach(element=> { %>
+
+                                    <% total=total + Number(element.price)*element.qty %>
+                                        <% }) %>
+
+                                            <!-- total ends -->
+                                            <div class="col-md-9">
+                                                <div class="tab-content dashboard-content">
+                                                    <div class="tab-pane fade active show" id="dashboard"
+                                                        role="tabpanel" aria-labelledby="dashboard-tab">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h5 class="mb-0">Order Details</h5>
+                                                            </div>
+                                                            <div class="card-body">
+
+
+                                                                <table id="myTable2">
+                                                                    <thead>
+                                                                        <th>Delivery Address</th>
+                                                                        <th>
+                                                                            <%=odata.address %>
+                                                                        </th>
+                                                                        <th></th>
+
+
+                                                                    </thead>
+                                                                    <thead>
+
+                                                                        <tr>
+                                                                            <th>Image</th>
+                                                                            <th>Product</th>
+
+                                                                            <th>Price</th>
+
+
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+
+
+                                                                        <% odata.products.forEach(element=> { %>
+
+
+
+                                                                            <tr>
+                                                                                <td><img src="/images/products/<%=element.image%>"
+                                                                                        style="width:40px;" alt=""></td>
+                                                                                <td>
+                                                                                    <%=element.productTitle %> x
+                                                                                        <%=element.qty %>
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <%=(Math.round((Number(element.price)*10)
+                                                                                        /10)).toLocaleString('en-IN') %>
+                                                                                </td>
+
+
+
+                                                                            </tr>
+                                                                            <% }) %>
+
+
+
+                                                                    </tbody>
+                                                                    <thead>
+
+
+                                                                        <th>Coupon</th>
+                                                                        <th>Total</th>
+                                                                        <th>Payment amount</th>
+
+
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <td>
+                                                                            <%=odata.coupon %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%=Math.round(total) %>
+                                                                        </td>
+                                                                        <% let pay=odata.amount %>
+                                                                            <% let pay1=Math.round(pay * 100) / 100%>
+                                                                                <td>
+                                                                                    <%=pay1%>
+                                                                                </td>
+
+
+                                                                    </tbody>
+                                                                </table>
+                                                                <% if (odata.orderStatus=="Cancelled" ) { %>
+
+                                                                    <a href="#" class="btn bg-danger disabled"> Order
+                                                                        Cancelled</a>
+                                                                    <% if (odata.paymentStatus=="refunded" ) { %>
+                                                                        <p class="text-info"><strong>Payment Refunded.
+                                                                                Might take upto 24hrs to reflect back in
+                                                                                your bank account.</strong></p>
+
+                                                                        <% } %>
+                                                                            <% } else if (odata.orderStatus=="delivered"
+                                                                                ) { %>
+                                                                                <a href="/returnorder/<%=odata._id %> "
+                                                                                    class="btn bg-warning"
+                                                                                    onclick="return confirm('Are you sure you want to return this order? Click ok to confirm');">Request
+                                                                                    Return</a>
+                                                                                <p class="text-warning"><strong>Return
+                                                                                        Request will only be accepted
+                                                                                        within 3days of
+                                                                                        delivery</strong></p>
+
+                                                                                <% } else if
+                                                                                    (odata.orderStatus=="return requested"
+                                                                                    ) { %>
+
+                                                                                    <a href="#"
+                                                                                        class="btn bg-info disabled">Return
+                                                                                        Requested</a>
+                                                                                    <p class="text-info"><strong>Your
+                                                                                            return request is being
+                                                                                            processed,<br> you'll be
+                                                                                            notified about the further
+                                                                                            update <br> via your phone
+                                                                                            +91<%=userdata.phone %>
+                                                                                        </strong></p>
+                                                                                    <% } else if
+                                                                                        (odata.orderStatus=="Return Request Cancelled"
+                                                                                        ) { %>
+
+
+                                                                                        <a href="#"
+                                                                                            class="btn bg-danger disabled">Return
+                                                                                            Request Cancelled</a>
+                                                                                        <p class="text-danger">
+                                                                                            <strong>Sorry your return
+                                                                                                request have been
+                                                                                                Rejected. </strong></p>
+
+                                                                                        <% } else if
+                                                                                            (odata.orderStatus=="Return Request Accepted"
+                                                                                            ) { %>
+
+
+                                                                                            <a href="#"
+                                                                                                class="btn bg-info disabled">Return
+                                                                                                Request Accepted</a>
+                                                                                            <p class="text-info">
+                                                                                                <strong>Your return
+                                                                                                    request have been
+                                                                                                    accepted,<br> Our
+                                                                                                    delivery partner
+                                                                                                    will contact you via
+                                                                                                    <br>your phone +91
+                                                                                                    <%=userdata.phone %>
+                                                                                                        for
+                                                                                                        pickup.</strong>
+                                                                                            </p>
+
+
+                                                                                            <% } else { %>
+                                                                                                <a href="/cancelorder/<%=odata._id %>"
+                                                                                                    onclick="return confirm('Are you sure you want to cancel this order? Click ok to confirm');"
+                                                                                                    class="btn bg-danger">Cancel
+                                                                                                    Order</a>
+                                                                                                <% } %>
+
+                                                                                                    <button
+                                                                                                        class="btn btn-primary"
+                                                                                                        onclick="downloadInvoice()">
+                                                                                                        <i
+                                                                                                            class="fas fa-download"></i>
+                                                                                                        Download Invoice
+                                                                                                    </button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="orders" role="tabpanel"
+                                                        aria-labelledby="orders-tab">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h5 class="mb-0">Your Orders</h5>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="table">
+                                                                    <table id="myTable2">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Image</th>
+                                                                                <th>Product</th>
+                                                                                <th>Payment</th>
+                                                                                <th>Payment method</th>
+                                                                                <th>Amount</th>
+                                                                                <th>Order Status</th>
+                                                                                <th>#</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="track-orders" role="tabpanel"
+                                                        aria-labelledby="track-orders-tab">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h5 class="mb-0">Orders tracking</h5>
+                                                            </div>
+                                                            <div class="card-body contact-from-area">
+                                                                <p>To track your order please enter your OrderID in the
+                                                                    box below and press "Track" button. This was given
+                                                                    to you on your receipt and in the confirmation email
+                                                                    you should have received.</p>
+                                                                <div class="row">
+                                                                    <div class="col-lg-8">
+                                                                        <form class="contact-form-style mt-30 mb-50"
+                                                                            action="#" method="post">
+                                                                            <div class="input-style mb-20">
+                                                                                <label>Order ID</label>
+                                                                                <input name="order-id"
+                                                                                    placeholder="Found in your order confirmation email"
+                                                                                    type="text" class="square">
+                                                                            </div>
+                                                                            <div class="input-style mb-20">
+                                                                                <label>Billing email</label>
+                                                                                <input name="billing-email"
+                                                                                    placeholder="Email you used during checkout"
+                                                                                    type="email" class="square">
+                                                                            </div>
+                                                                            <button class="submit submit-auto-width"
+                                                                                type="submit">Track</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="address" role="tabpanel"
+                                                        aria-labelledby="address-tab">
+                                                        <div class="row">
+
+
+
+                                                            <!-- Modal HTML embedded directly into document -->
+                                                            <div id="ex1" class="modal" style="height: fit-content;">
+                                                                <div class="card">
+                                                                    <div class="card-header">
+                                                                        <h5>Add new address</h5>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <!-- <p>Already have an account? <a href="page-login-register.html">Log in instead!</a></p> -->
+                                                                        <form action="/addaddress" method="post">
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-12">
+                                                                                    <input required class="radio"
+                                                                                        style="width: 20px;" name="type"
+                                                                                        type="radio" value="home">
+                                                                                    <label for="">Home</label>
+                                                                                    <input required class="radio"
+                                                                                        style="width: 20px;" name="type"
+                                                                                        type="radio" value="work">
+                                                                                    <label for="">Work</label>
+                                                                                    <input required class="radio"
+                                                                                        style="width: 20px;" name="type"
+                                                                                        type="radio" value="other">
+                                                                                    <label for="">Other</label>
+
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>Full Name <span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required
+                                                                                        class="form-control square"
+                                                                                        name="name" type="text">
+                                                                                </div>
+
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>Address <span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required=""
+                                                                                        class="form-control square"
+                                                                                        name="address" type="text">
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>State<span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required=""
+                                                                                        class="form-control square"
+                                                                                        name="state" type="text">
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>Country<span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required=""
+                                                                                        class="form-control square"
+                                                                                        name="country" type="text">
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>Pincode<span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required=""
+                                                                                        class="form-control square"
+                                                                                        name="pincode" type="text">
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>Phone <span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required=""
+                                                                                        class="form-control square"
+                                                                                        name="phone" type="text">
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-fill-out submit"
+                                                                                        name="submit"
+                                                                                        value="Submit">Save</button>
+                                                                                    <a href="#" rel="modal:close"
+                                                                                        class="btn btn-fill-out bg-danger submit"
+                                                                                        name="submit"
+                                                                                        value="Submit">close</a>
+
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Link to open the modal -->
+                                                            <p><a href="#ex1" rel="modal:open" class="btn">Add
+                                                                    Adress</a></p>
+
+
+                                                        </div>
+                                                        <div class="tab-pane fade" id="account-detail" role="tabpanel"
+                                                            aria-labelledby="account-detail-tab">
+                                                            <div class="card ">
+
+                                                                <div class="row">
+                                                                    <div class="col-lg-9">
+                                                                        <section class="content-body  p-xl-4 ">
+                                                                            <form
+                                                                                action="/updateprofile/<%=userdata._id %> "
+                                                                                method="post">
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-8">
+                                                                                        <div class="row gx-3">
+                                                                                            <div class="col-6  mb-3">
+                                                                                                <label
+                                                                                                    class="form-label">Username</label>
+                                                                                                <input
+                                                                                                    class="form-control"
+                                                                                                    type="text"
+                                                                                                    name="uname"
+                                                                                                    value="<%=userdata.uname %> ">
+                                                                                            </div> <!-- col .// -->
+                                                                                            <div class="col-lg-6  mb-3">
+                                                                                                <label
+                                                                                                    class="form-label">Phone</label>
+                                                                                                <input
+                                                                                                    class="form-control"
+                                                                                                    type="tel"
+                                                                                                    name="phone"
+                                                                                                    value="<%=userdata.phone%>">
+                                                                                            </div> <!-- col .// -->
+                                                                                            <div
+                                                                                                class="col-lg-12  mb-3">
+                                                                                                <label
+                                                                                                    class="form-label">Email</label>
+                                                                                                <input
+                                                                                                    class="form-control"
+                                                                                                    type="email"
+                                                                                                    name="email"
+                                                                                                    value="<%=userdata.email%>">
+                                                                                            </div> <!-- col .// -->
+                                                                                            <!-- col .// -->
+                                                                                            <!-- <div class="col-lg-12  mb-3">
+                                                    <label class="form-label">Address</label>
+                                                    <input class="form-control" type="text" placeholder="Address">
+                                                </div> -->
+                                                                                            <!-- col .// -->
+                                                                                            <!-- <div class="col-lg-6  mb-3">
+                                                    <label class="form-label">Birthday</label>
+                                                    <input class="form-control" type="date">
+                                                </div>  -->
+                                                                                            <!-- col .// -->
+                                                                                        </div> <!-- row.// -->
+                                                                                    </div> <!-- col.// -->
+                                                                                    <aside class="col-lg-4">
+                                                                                        <figure class="text-lg-center">
+                                                                                            <img class="img-lg mb-3 img-avatar"
+                                                                                                src="/stylesheets/assets-backend/imgs/people/avatar5.jpg"
+                                                                                                alt="User Photo">
+                                                                                            <figcaption>
+                                                                                                <a class="btn btn-light rounded font-md"
+                                                                                                    href="#">
+                                                                                                    <i
+                                                                                                        class="icons material-icons md-backup font-md"></i>
+                                                                                                    Upload
+                                                                                                </a>
+                                                                                            </figcaption>
+                                                                                        </figure>
+                                                                                    </aside> <!-- col.// -->
+                                                                                </div> <!-- row.// -->
+                                                                                <br>
+                                                                                <button class="btn btn-primary"
+                                                                                    type="submit">Save changes</button>
+                                                                            </form>
+                                                                            <hr class="my-5">
+                                                                            <!-- <div class="row" style="max-width:920px">
+                                    <div class="col-md">
+                                        <article class="box mb-3 bg-white">
+                                            
+                                            <h6>Password</h6>
+                                            <small class="text-muted d-block" style="width:70%">You can reset or change your password by clicking here</small>
+                                            <a class="btn btn-light btn-sm rounded font-md" href="#">Change</a>
+                                        </article>
+                                    </div>
+                                    <div class="col-md">
+                                        <article class="box mb-3 bg-white">
+                                           
+                                            <h6>Remove account</h6>
+                                            <small class="text-muted d-block" style="width:70%">Once you delete your account, there is no going back.</small>
+                                            <a class="btn float-center btn-light rounded btn-sm font-md" href="#">Deactivate</a>
+                                        </article>
+                                    </div> 
+                                </div> -->
+                                                                            <!-- row.// -->
+                                                                        </section> <!-- content-body .// -->
+                                                                    </div> <!-- col.// -->
+                                                                </div> <!-- row.// -->
+                                                                <!-- card body end// -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </main>
+
+    <script>
+
+        function hideDiv() {
+            document.getElementById('alert').style.display = 'none';
+        }
+
+        setTimeout(hideDiv, 1000); // Hide the div after 3 seconds (3000 milliseconds)
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+    <script>
+        function downloadInvoice() {
+
+            var data = {
+                // Customize enables you to provide your own templates
+                // Please review the documentation for instructions and examples
+                "customize": {
+                    //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html 
+                },
+                "images": {
+                    // The logo on top of your invoice
+                    "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
+                    // The invoice background
+                    "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
+                },
+                // Your own data
+
+
+                "sender": {
+                    "company": "COSMOS CAKE STUDIO",
+                    "address": "kunnumpuram",
+                    "zip": "676304",
+                    "city": "Malappuram",
+                    "country": "India"
+                    //"custom1": "custom value 1",
+                    //"custom2": "custom value 2",
+                    //"custom3": "custom value 3"
+                },
+                // Your recipient
+                "client": {
+                    "company": "Client Corp",
+                    "address": "Clientstreet 456",
+                    "zip": "4567 CD",
+                    "city": "Clientcity",
+                    "country": "Clientcountry"
+                    // "custom1": "custom value 1",
+                    // "custom2": "custom value 2",
+                    // "custom3": "custom value 3"
+                },
+                "information": {
+                    // Invoice number
+                    "number": "9995092251",
+                    // Invoice data
+                    "date": "10-05-2023",
+                    // Invoice due date
+                    "due-date": "31-12-2021"
+                },
+                // The products you would like to see on your invoice
+                // Total values are being calculated automatically
+                "products": [
+   <% odata.products.forEach(product => { %>
+                {
+                    "quantity": "<%= Number(product.qty) %>",
+                    "description": "<%=product.productTitle %>",
+           <% let price = product.price.trim() %>
+                        "price": " <%= price%>",
+       },
+   <% }) %>
+],
+
+            // The message you would like to display on the bottom of your invoice
+            "bottom-notice": "Kindly pay your invoice within 15 days.",
+                // Settings to customize your invoice
+                "settings": {
+                "currency": "INR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
+       // "locale": "nl-NL", // Defaults to en-US, used for number formatting (See documentation 'Locales and Currency')        
+       // "margin-top": 25, // Defaults to '25'
+       // "margin-right": 25, // Defaults to '25'
+       // "margin-left": 25, // Defaults to '25'
+       // "margin-bottom": 25, // Defaults to '25'
+       // "format": "A4", // Defaults to A4, options: A3, A4, A5, Legal, Letter, Tabloid
+       // "height": "1000px", // allowed units: mm, cm, in, px
+       // "width": "500px", // allowed units: mm, cm, in, px
+       // "orientation": "landscape", // portrait or landscape, defaults to portrait
+   },
+            // Translate your invoice to your preferred language
+            "translate": {
+                // "invoice": "FACTUUR",  // Default to 'INVOICE'
+                // "number": "Nummer", // Defaults to 'Number'
+                // "date": "Datum", // Default to 'Date'
+                // "due-date": "Verloopdatum", // Defaults to 'Due Date'
+                // "subtotal": "Subtotaal", // Defaults to 'Subtotal'
+                // "products": "Producten", // Defaults to 'Products'
+                // "quantity": "Aantal", // Default to 'Quantity'
+                // "price": "Prijs", // Defaults to 'Price'
+                // "product-total": "Totaal", // Defaults to 'Total'
+
+            },
+
+        };
+
+        //Create your invoice! Easy!
+        easyinvoice.createInvoice(data, async function (result) {
+            //The response will contain a base64 encoded PDF file
+            console.log('PDF base64 string: ', result.pdf);
+            easyinvoice.download("invoice.pdf")
+        });
+                       
+    }
+    </script>
+
+
+
+    <%- include('../partials/user-footer') %>

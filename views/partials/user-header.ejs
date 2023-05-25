@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/index-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:26:06 GMT -->
+
+<head>
+    <meta charset="utf-8">
+    <title>COSMOS CAKE STUDIO</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/logo.png" sizes="150x150">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        /* CSS code */
+        .input-container {
+            position: relative;
+        }
+
+        #otp {
+            padding-right: 40px;
+            /* Add padding on the right for the button */
+        }
+
+        #toggleBtn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-style-2 {
+            position: relative;
+        }
+
+        .search-bar {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        #searchbar1 {
+            width: 32rem;
+            padding: 25px;
+            border-radius: 37px;
+            border: 1px solid rgba(0, 0, 0, 0.267);
+            font-size: 15px;
+            margin-left: 1rem;
+            margin-top: 0rem;
+        }
+
+        .list-group {
+            position: absolute;
+            z-index: 1;
+            background-color: #fff;
+            width: 100%;
+
+            border-radius: 2px;
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #no1 {
+            display: none;
+        }
+
+        .p-conf,
+        .n-conf,
+        .r-conf {
+            width: 100%;
+            height: 20px;
+            border-radius: 4px;
+            background-color: rgba(0, 249, 12, 0.5);
+            display: none;
+        }
+
+        .n-conf,
+        .r-conf {
+            border-color: red;
+            background-color: rgba(255, 0, 4, 0.5);
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- invoice Download -->
+    <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+
+    <!-- download button CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-lG3yjJqlnYPmD7r8FJMw+3YJjKdbLh1nV9Lnb+uP6y5hJLEBj+VGcU6HJU5Q5/oyG5J5A9ir5L5z0bbucgTwOg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Include the SweetAlert library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- for firebase OTP -->
+    <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
+</head>
+
+<header class="header-area header-style-3 header-height-2">
+    <div class="header-top header-top-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-3 col-lg-4">
+                    <div class="header-info">
+                        <ul>
+                            <li><i class="fi-rs-smartphone"></i> <a href="#">(+91) - 999 - 509</a></li>
+                            <li><i class="fi-rs-marker"></i><a href="https://goo.gl/maps/GtdokDNDaPYRYYtRA">Our
+                                    location</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-4">
+                    <div class="text-center">
+                        <div id="news-flash" class="d-inline-block">
+                            <ul>
+                                <li>Get great tasty cake up to 50% off <a>View details</a></li>
+                                <li>Supper Value Deals - Save more with coupons</li>
+                                <li>Trendy Frechy cakes, save up 35% off today <a href="/shop">Shop now</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4">
+                    <div class="header-info header-info-right">
+                        <ul>
+                            <% if (locals.userdata) { %>
+                                <li><i class="fi-rs-user"></i><a href="/profile">Hello <%= userdata.uname %></a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/logout" onclick="showSweetAlert(event);">
+                                        <i class="ri-logout-box-r-line"></i>Logout
+                                    </a>
+                                </li>
+                                <!-- <li>
+                                      <a class="dropdown-item" href="/logout" id="logout-link"><i class="ri-logout-box-r-line"></i>Logout</a>
+                                    </li> -->
+
+
+                                <!-- <li><a href="/logout">Logout <i class="ri-logout-box-r-line"></i></a></li> -->
+                                <% } else { %>
+                                    <li><i class="fi-rs-user"></i><a href="/login">Log In / </a><a href="/signup">Sign
+                                            Up</a></li>
+                                    <% } %>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="logo logo-width-1">
+                    <a href="index.html"><img src="/assets/imgs/theme/logo.png" alt="logo"></a>
+                </div>
+                <div class="header-right">
+                    <div class="search-style-2">
+
+                        <h1 class="HeadFont" style="font-size: 45px;
+                    color: #769f9f;
+                    font-family: cursive;">COSMOS CAKE STUDIO</h1>
+
+                    </div>
+                    <div class="header-action-right">
+                        <div class="header-action-2">
+                            <div class="header-action-icon-2">
+
+                            </div>
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="/cart">
+                                    <img alt="Evara" src="/assets/imgs/theme/icons/icon-cart.svg">
+
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-bottom header-bottom-bg-color sticky-bar">
+        <div class="container">
+            <div class="header-wrap header-space-between position-relative  main-nav">
+                <div class="logo logo-width-1 d-block d-lg-none">
+                    <a href="index.html"><img src="  /assets/imgs/theme/logo.png" alt="logo"></a>
+                </div>
+                <div class="header-nav d-none d-lg-flex">
+                    <div class="main-categori-wrap d-none d-lg-block">
+                        <a class="categori-button-active" href="#">
+                            <span class="fas fa-birthday-cake"></span> Cosmos Special Cakes
+                        </a>
+
+                    </div>
+                    <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
+                        <nav>
+                            <ul>
+                                <li><a class="active" href="/">Home </a>
+
+                                </li>
+                                <li>
+                                    <a></a>
+                                </li>
+                                <li><a href="/shop">Shop </a>
+
+                                </li>
+                                <li><a></a>
+
+                                </li>
+                                <li><a href="/cart">Cart</a>
+
+                                </li>
+                                <li><a></a>
+
+                                </li>
+                                <li>
+                                    <a href="/contact">Contact</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="hotline d-none d-lg-block">
+                    <p><i class="fi-rs-headset"></i><span>Hotline</span> 999 - 2251 </p>
+                </div>
+                <p class="mobile-promotion"><span class="text-brand"></span></p>
+                <div class="header-action-right d-block d-lg-none">
+                    <div class="header-action-2">
+                        <div class="header-action-icon-2">
+
+                        </div>
+                        <div class="header-action-icon-2">
+                            <a class="mini-cart-icon" href="/cart">
+                                <img alt="Evara" src="  /assets/imgs/theme/icons/icon-cart.svg">
+
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="header-action-icon-2 d-block d-lg-none">
+                        <div class="burger-icon burger-icon-white">
+                            <span class="burger-icon-top"></span>
+                            <span class="burger-icon-mid"></span>
+                            <span class="burger-icon-bottom"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</header>
+<div class="mobile-header-active mobile-header-wrapper-style">
+    <div class="mobile-header-wrapper-inner">
+        <div class="mobile-header-top">
+            <div class="mobile-header-logo">
+                <a href="index.html"><img src="  /assets/imgs/theme/logo.png" alt="logo"></a>
+
+            </div>
+            <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                <button class="close-style search-close">
+                    <i class="icon-top"></i>
+                    <i class="icon-bottom"></i>
+                </button>
+            </div>
+        </div>
+        <div class="mobile-header-content-area">
+            <div class="mobile-search search-style-3 mobile-header-border">
+
+                <% if (locals.userdata) { %>
+
+                    <i class="fi-rs-user"></i>
+                    <a href="/profile">Hello <%= userdata.uname %></a>
+
+
+                    <% } else { %>
+
+                        <i class="fi-rs-user"></i>
+                        <a href="/login">Log In / </a>
+                        <a href="/signup">Sign Up</a>
+
+                        <% } %>
+            </div>
+            <div class="mobile-menu-wrap mobile-header-border">
+                <div class="main-categori-wrap mobile-header-border">
+                    <a class="categori-button-active-2" href="#">
+                        <span class="fi-rs-apps"></span> Browse Categories
+                    </a>
+                    <div class="categori-dropdown-wrap categori-dropdown-active-small">
+                        <ul>
+
+                            <li><a href="/shop"><i class="fas fa-birthday-cake"></i>Photo Cake </a></li>
+                            <li><a href="/shop"><i class="fas fa-birthday-cake"></i>fresh Cream </a></li>
+                            <li> <a href="/shop"><i class="fas fa-birthday-cake"></i> Birthday Special</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- mobile menu start -->
+                <nav>
+                    <ul class="mobile-menu">
+                        <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/">Home</a>
+
+                        </li>
+                        <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/shop">Shop</a>
+
+                        </li>
+                        <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/cart">Cart</a>
+
+                        </li>
+                        <li class="menu-item-has-children"><span class="menu-expand"></span><a
+                                href="/contact">Contact</a>
+
+                        </li>
+                        <% if (locals.userdata) { %>
+                            <li>
+
+
+                                <a href="/logout" id="logout-link">
+                                    <i class="ri-logout-box-r-line"></i>Logout
+                                </a>
+
+                            </li>
+                            <% } else { %>
+
+                                <% } %>
+                    </ul>
+                </nav>
+                <!-- mobile menu end -->
+            </div>
+            <div class="mobile-header-info-wrap mobile-header-border">
+                <div class="single-mobile-header-info mt-30">
+                    <a href="https://goo.gl/maps/GtdokDNDaPYRYYtRA"> Our location </a>
+                </div>
+
+                <div class="single-mobile-header-info">
+                    <a href="#">(+91) - 9995-0922-51</a>
+                </div>
+            </div>
+            <div class="mobile-social-icon">
+                <h5 class="mb-15 text-grey-4">Follow Us</h5>
+                <a href="#"><img src="  /assets/imgs/theme/icons/icon-facebook.svg" alt=""></a>
+                <a href="#"><img src="  /assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                <a href="#"><img src="  /assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                <a href="#"><img src="  /assets/imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+                <a href="#"><img src="  /assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showSweetAlert(event) {
+        event.preventDefault(); // Prevents the default link behavior
+
+        Swal.fire({
+            title: "Are you sure you want to logout?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "Cancel",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Perform logout action
+                window.location.href = "/logout";
+            }
+        });
+    }
+</script>

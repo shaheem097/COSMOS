@@ -1,0 +1,54 @@
+<%- include('../partials/adminHeader') %>
+
+
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Categories </h2>
+                <p>Add, edit or delete a category</p>
+                <% if (locals.err) { %>
+                    <p class="text-danger">Category Already exists!</p>
+                    <% } %>
+
+                        <% if (locals.newcat) { %>
+                            <p class="text-success">New category added.</p>
+                            <% } %>
+
+            </div>
+
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <form action="/admin/updatecategory/<%=data._id %> " method="post">
+                            <div class="mb-4">
+                                <label class="form-label">Name</label>
+                                <input type="text" placeholder="Name" class="form-control" name="name"
+                                    value="<%=data.name  %> " />
+                            </div>
+
+
+                            <div class="mb-4">
+                                <label class="form-label">Description</label>
+                                <input placeholder="Description" name="description" class="form-control"
+                                    style="height:100px;" value="<%=data.description  %> "></input>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" type="submit">Update Category</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="table-responsive">
+
+
+
+                        </div>
+                    </div> <!-- .col// -->
+                </div> <!-- .row // -->
+            </div> <!-- card body .// -->
+        </div> <!-- card .// -->
+    </section>
+
+    <%- include('../partials/admin-footer') %>

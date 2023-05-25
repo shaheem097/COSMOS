@@ -1,0 +1,482 @@
+<%- include('../partials/user-header') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+
+
+    <% if (gotoOrder) { %>
+        <input type="hidden" id="gotoOrder" value="1">
+        <% } else { %>
+            <input type="hidden" id="gotoOrder" value="0">
+            <% } %>
+
+                <main class="main">
+
+                    </div>
+                    <section class="pt-150 pb-150">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-lg-10 m-auto">
+
+                                    <!-- <p class="text-success">Product added</p> -->
+                                    <div class="alert alert-success text-center" role="alert" id="alert">
+                                        Changes saved!
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="dashboard-menu">
+                                                <ul class="nav flex-column" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="dashboard-tab"
+                                                            data-bs-toggle="tab" href="#dashboard" role="tab"
+                                                            aria-controls="dashboard" aria-selected="false"><i
+                                                                class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="orders-tab" data-bs-toggle="tab"
+                                                            href="#orders" role="tab" aria-controls="orders"
+                                                            aria-selected="false"><i
+                                                                class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="wallet-tab" data-bs-toggle="tab"
+                                                            href="#wallet" role="tab" aria-controls="wallet"
+                                                            aria-selected="false"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor" class="bi bi-wallet"
+                                                                viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5V3zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a1.99 1.99 0 0 1-1-.268zM1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1z" />
+                                                            </svg>
+                                                            My wallet</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="address-tab" data-bs-toggle="tab"
+                                                            href="#address" role="tab" aria-controls="address"
+                                                            aria-selected="true"><i class="fi-rs-marker mr-10"></i>My
+                                                            Address</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab"
+                                                            href="#account-detail" role="tab"
+                                                            aria-controls="account-detail" aria-selected="true"><i
+                                                                class="fi-rs-user mr-10"></i>Account</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="/logout"><i
+                                                                class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="tab-content dashboard-content" style="width: 50rem;">
+                                                <div class="tab-pane fade active show" id="dashboard" role="tabpanel"
+                                                    aria-labelledby="dashboard-tab">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h5 class="mb-0">Hello <%= userdata.uname %>!</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <p>From your account dashboard. you can easily check &amp;
+                                                                view your <a href="#orders">recent orders</a>, manage
+                                                                your <a href="#address">shipping and billing
+                                                                    addresses</a> and <a href="#account-detail">edit
+                                                                    your password and account details.</a></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade " id="orders" role="tabpanel"
+                                                    aria-labelledby="orders-tab">
+                                                    <div class="card ">
+                                                        <div class="card-header ">
+                                                            <h5 class="mb-0">Your Orders</h5>
+                                                        </div>
+                                                        <div class="card-body">
+
+                                                            <div class="">
+                                                                <table id="myTable2">
+
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>Date</th>
+                                                                            <th>Products</th>
+                                                                            <th>Payment Method</th>
+                                                                            <th>Total amount</th>
+                                                                            <th>Payment Status</th>
+                                                                            <th>Order Status</th>
+                                                                            <th>Details</th>
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <% let x=1 %>
+                                                                            <% orders.forEach(element=> { %>
+
+                                                                                <% let date=element.date+"" %>
+
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <%=x++ %>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <%= new
+                                                                                                Date(element.date).toISOString().substring(0,
+                                                                                                16) %>
+                                                                                        </td>
+
+
+                                                                                        <td>
+                                                                                            <%=element.products.length
+                                                                                                %> items
+                                                                                        </td>
+
+
+                                                                                        <td>
+                                                                                            <%=element.payment %>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <%=Math.round(element.amount
+                                                                                                * 100) / 100 %>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <%=element.paymentStatus %>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <%=element.orderStatus %>
+                                                                                        </td>
+                                                                                        <td><a href="/orderdetails/<%=element._id %> "
+                                                                                                class="btn-small d-block">View
+                                                                                                More</a></td>
+
+
+                                                                                    </tr>
+                                                                                    <% }) %>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="wallet" role="tabpanel"
+                                                    aria-labelledby="wallet-tab">
+                                                    <div class="container">
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-md-6">
+                                                                <div class="card mt-5">
+                                                                    <div class="card-header">
+                                                                        <h4>Wallet Balance Payment</h4>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <form>
+                                                                            <div class="form-group">
+                                                                                <label for="walletBalance">Current
+                                                                                    Wallet Balance:</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="walletBalance"
+                                                                                    value="<%=wallet.WalletAmount%>"
+                                                                                    readonly>
+                                                                            </div>
+                                                                            <!-- <div class="form-group">
+                                                    <label for="paymentAmount">Payment Amount:</label>
+                                                    <input type="number" class="form-control" id="paymentAmount" placeholder="Enter payment amount" required>
+                                                  </div>
+                                                  <button type="submit" class="btn btn-primary">Make Payment</button> -->
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="address" role="tabpanel"
+                                                    aria-labelledby="address-tab">
+                                                    <% if (data.length==0) { %>
+                                                        <div>
+                                                            <h6 class="text-danger">You haven't added an address yet,
+                                                                Please add an address.</h6>
+                                                        </div>
+                                                        <% } %>
+
+
+
+                                                            <div class="row">
+
+                                                                <% data.forEach(element=> { %>
+
+
+                                                                    <div class="col-lg-6">
+                                                                        <div class="card mb-3 mb-lg-0">
+                                                                            <div class="card-header">
+                                                                                <h5 class="mb-0">
+                                                                                    <%=element.type %> Address
+                                                                                </h5>
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                <p>name:<%=element.name %>
+                                                                                </p>
+                                                                                <address>address:<%=element.address %>
+                                                                                </address>
+                                                                                <p>state: <%=element.state %>
+                                                                                </p>
+                                                                                <p>country:<%=element.country %>
+                                                                                </p>
+                                                                                <p>pincode:<%=element.pincode %>
+                                                                                </p>
+                                                                                <p>phone: <%=element.phone %>
+                                                                                </p>
+                                                                                <a href="/deladdress/<%=element._id %>"
+                                                                                    class="btn-small btn bg-danger"><i
+                                                                                        class="ri-delete-bin-2-line"></i></a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <% }) %>
+
+                                                            </div>
+
+                                                            <!-- Modal HTML embedded directly into document -->
+                                                            <div id="ex1" class="modal" style="height: fit-content;">
+                                                                <div class="card">
+                                                                    <div class="card-header">
+                                                                        <h5>Add new address</h5>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <!-- <p>Already have an account? <a href="page-login-register.html">Log in instead!</a></p> -->
+                                                                        <form action="/addaddress" method="post">
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-12">
+                                                                                    <input required class="radio"
+                                                                                        style="width: 20px;" name="type"
+                                                                                        type="radio" value="home">
+                                                                                    <label for="">Home</label>
+                                                                                    <input required class="radio"
+                                                                                        style="width: 20px;" name="type"
+                                                                                        type="radio" value="work">
+                                                                                    <label for="">Work</label>
+                                                                                    <input required class="radio"
+                                                                                        style="width: 20px;" name="type"
+                                                                                        type="radio" value="other">
+                                                                                    <label for="">Other</label>
+
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>Full Name <span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required
+                                                                                        class="form-control square"
+                                                                                        name="name" type="text">
+                                                                                </div>
+
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>Address <span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required=""
+                                                                                        class="form-control square"
+                                                                                        name="address" type="text">
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>State<span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required=""
+                                                                                        class="form-control square"
+                                                                                        name="state" type="text">
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>Country<span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required=""
+                                                                                        class="form-control square"
+                                                                                        name="country" type="text">
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>Pincode<span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required=""
+                                                                                        class="form-control square"
+                                                                                        name="pincode" type="text">
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label>Phone <span
+                                                                                            class="required">*</span></label>
+                                                                                    <input required=""
+                                                                                        class="form-control square"
+                                                                                        name="phone" type="text">
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-fill-out submit"
+                                                                                        name="submit"
+                                                                                        value="Submit">Save</button>
+                                                                                    <a href="#" rel="modal:close"
+                                                                                        class="btn btn-fill-out bg-danger submit"
+                                                                                        name="submit"
+                                                                                        value="Submit">close</a>
+
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Link to open the modal -->
+                                                            <p><a href="#ex1" rel="modal:open" class="btn">Add
+                                                                    Adress</a></p>
+
+
+                                                </div>
+                                                <div class="tab-pane fade" id="account-detail" role="tabpanel"
+                                                    aria-labelledby="account-detail-tab">
+                                                    <div class="card ">
+
+                                                        <div class="row">
+                                                            <div class="col-lg-9">
+                                                                <section class="content-body  p-xl-4 ">
+                                                                    <form action="/updateprofile/<%=userdata._id %>  "
+                                                                        method="post">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-8">
+                                                                                <div class="row gx-3">
+                                                                                    <div class="col-6  mb-3">
+                                                                                        <label
+                                                                                            class="form-label">Username</label>
+                                                                                        <input class="form-control"
+                                                                                            type="text" name="uname"
+                                                                                            value="<%=userdata.uname %>">
+                                                                                    </div> <!-- col .// -->
+                                                                                    <div class="col-lg-6  mb-3">
+                                                                                        <label
+                                                                                            class="form-label">Phone</label>
+                                                                                        <input class="form-control"
+                                                                                            type="tel" name="phone"
+                                                                                            value="<%=userdata.phone%>">
+                                                                                    </div> <!-- col .// -->
+                                                                                    <div class="col-lg-12  mb-3">
+                                                                                        <label
+                                                                                            class="form-label">Email</label>
+                                                                                        <input class="form-control"
+                                                                                            type="email" name="email"
+                                                                                            value="<%=userdata.email%>">
+                                                                                    </div> <!-- col .// -->
+                                                                                    <!-- col .// -->
+                                                                                    <!-- <div class="col-lg-12  mb-3">
+                                                    <label class="form-label">Address</label>
+                                                    <input class="form-control" type="text" placeholder="Address">
+                                                </div> -->
+                                                                                    <!-- col .// -->
+                                                                                    <!-- <div class="col-lg-6  mb-3">
+                                                    <label class="form-label">Birthday</label>
+                                                    <input class="form-control" type="date">
+                                                </div>  -->
+                                                                                    <!-- col .// -->
+                                                                                </div> <!-- row.// -->
+                                                                            </div> <!-- col.// -->
+                                                                            <!-- <aside class="col-lg-4">
+                                                <figure class="text-lg-center">
+                                                    <img class="img-lg mb-3 img-avatar" src="/stylesheets/assets-backend/imgs/people/avatar5.jpg" alt="User Photo">
+                                                    <figcaption>
+                                                        <a class="btn btn-light rounded font-md" href="#">
+                                                            <i class="icons material-icons md-backup font-md"></i> Upload
+                                                        </a>
+                                                    </figcaption>
+                                                </figure>
+                                            </aside> -->
+                                                                            <!-- col.// -->
+                                                                        </div> <!-- row.// -->
+                                                                        <br>
+                                                                        <button class="btn btn-primary"
+                                                                            type="submit">Save changes</button>
+                                                                    </form>
+                                                                    <hr class="my-5">
+                                                                    <div class="row" style="max-width:920px">
+                                                                        <div class="col-md">
+                                                                            <article class="box mb-3 bg-white">
+
+                                                                                <!-- <h6>Password</h6>
+                                            <small class="text-muted d-block" style="width:70%">You can reset or change your password by clicking here</small>
+                                            <a class="btn btn-light btn-sm rounded font-md" href="#ex4" rel="modal:open">Change</a> -->
+
+                                                                                <!-- Modal HTML embedded directly into document -->
+
+                                                                                <!-- <div id="ex4" class="modal" style="height: fit-content;width: fit-content;">
+                                                
+                                                <p>Inorder to change your password, you need to verify using the otp sent to your phone number. <br></p>
+                                                <a href="/changepassword"  class="btn btn-primary p-1 ">Send OTP</a>
+                                                <a href="#ex4" rel="modal:close" class="btn bg-danger p-1">Cancel</a>
+                                              </div> -->
+
+                                                                                <!-- <div id="ex5" class="modal" style="height: fit-content;width: fit-content;">
+                                                <p>Inorder to change your password, you need to verify using the otp sent to your phone number. <br></p>
+                                                <a href="#ex5" rel="modal:open">Close</a>
+                                              </div> -->
+
+
+
+
+                                                                            </article>
+                                                                        </div>
+                                                                        <!-- col.// -->
+                                                                        <!-- <div class="col-md">
+                                        <article class="box mb-3 bg-white">
+                                           
+                                            <h6>Remove account</h6>
+                                            <small class="text-muted d-block" style="width:70%">Once you delete your account, there is no going back.</small>
+                                            <a class="btn float-center btn-light rounded btn-sm font-md" href="#">Deactivate</a>
+                                        </article>
+                                    </div> -->
+                                                                        <!-- col.// -->
+                                                                    </div> <!-- row.// -->
+                                                                </section> <!-- content-body .// -->
+                                                            </div> <!-- col.// -->
+                                                        </div> <!-- row.// -->
+                                                        <!-- card body end// -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+
+                <script>
+                    let gotoOrder = document.getElementById('gotoOrder').value
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        if (gotoOrder == 1) {
+                            document.getElementById('orders-tab').click()
+                        }
+
+                    });
+
+
+                </script>
+
+
+                <script>
+
+                    function hideDiv() {
+                        document.getElementById('alert').style.display = 'none';
+                    }
+
+                    setTimeout(hideDiv, 1000); // Hide the div after 3 seconds (3000 milliseconds)
+
+                </script>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+
+
+
+                <%- include('../partials/user-footer') %>

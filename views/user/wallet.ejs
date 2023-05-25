@@ -1,0 +1,33 @@
+<%- include('../layouts/user-header') %>
+
+  <body class="my-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card mt-5">
+            <div class="card-header">
+              <h4>Wallet Balance Payment</h4>
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="form-group">
+                  <label for="walletBalance">Current Wallet Balance:</label>
+                  <input type="text" class="form-control" id="walletBalance" value="<%= response.walletAmount %>"
+                    readonly>
+                </div>
+                <!-- <div class="form-group">
+                <label for="paymentAmount">Payment Amount:</label>
+                <input type="number" class="form-control" id="paymentAmount" placeholder="Enter payment amount" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Make Payment</button> -->
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+
+  <%- include('../layouts/user-footer') %>

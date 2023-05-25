@@ -1,0 +1,196 @@
+<%- include('../partials/user-header') %>
+
+<main class="main">
+   <% if (empty) { %>
+    <div class="col-12 text-center">
+         <img src="/images/products/emptycart.png" alt="">
+      
+         <br>
+         <a href="/shop" class="btn btn-primary">Shop Now</a>
+    </div>
+
+    <% } else { %>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table shopping-summery text-center clean">
+                                <thead>
+                                    <tr class="main-heading">
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Subtotal</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                  
+    <% var gb %> 
+                                  
+                              <% cart.forEach(element => { %>
+                         
+                               
+                             
+                                    <tr>
+                                        <td class="image"><img src="/images/products/<%=element.image %> " alt="#"></td>
+                                        <td class="product-des">
+                                            <h5 class="product-name"><a href="/product/<%=element.pid %> "><%=element.productTitle %> </a></h5>
+                                            
+                                        </td>
+                                        <td class="price" data-title="Price"><p id="price">₹<%=(element.price).toLocaleString('en-IN') %> </p></td>
+                                        <td class="text-center" >
+                                            <form action="/cartupdate/<%=element._id %>" method="post">
+                                             <% if (outforcart) { %>
+                                                <input class="itemqty" type="number" name="qty" id="qty"  value="OUT OF STOCK" readonly style="width:5em;border:0ch;" min="1" >
+                                              
+                                             <% } else { %>
+                                              
+                                                <input class="itemqty" type="number" name="qty" id="qtyy" onclick="changeqty('<%=element.qty %>','<%=element.pid %>', event)" value="<%=element.qty %>" style="width:5em;border:0ch;" min="1" max="<%=Number(element.stock)%>">
+                                            
+                                            <% } %>
+                                            <button type="submit" id="qtyBtn" style="display: none;">click</button>
+                                              
+                                        </td>
+                                        <td id="subtotal" class="text-right" data-title="Cart">
+                                            <input class="text-center" name="subtotal" id="subtotal" value="₹<%=(Math.round((element.price*element.qty)*100)/100).toLocaleString('en-IN') %> " readonly style="width:7em;padding:0px;margin:0px;border:0ch;font-size:medium;">
+                                        </form>
+                                        </td>
+                                        <td class="action" data-title="Remove"><a href="/deletecartitem/<%=element._id %> " class="text-muted"><i class="fi-rs-trash"></i></a></td>
+                                    </tr>
+
+                            
+    
+                                  <% }) %>
+                                    <tr>
+                                        <td colspan="6" class="text-end">
+                                            <a href="/clearcart/<%=userdata._id%> " class="text-muted"> <i class="fi-rs-cross-small"></i> Clear Cart </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                           
+                        </div>
+                        <div class="cart-action text-end">
+                            <!-- <a class="btn  mr-10 mb-sm-15"><i class="fi-rs-shuffle mr-10"></i>Update Cart</a> -->
+                            <a class="btn " href="/shop"><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
+                        </div>
+                        <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
+                        <div class="row mb-50">
+
+
+
+                            
+                            <div class="col-lg-6 col-md-12">
+
+                                <% var subt =0 %> 
+                                <% cart.forEach(element => { %>
+
+                                    <% subt  = subt + (element.price*element.qty) %> 
+
+                                    
+                                 
+                                <% }) %>
+
+                                <% subt = Math.round((subt)*100)/100 %> 
+                                
+
+
+                                
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="border p-md-4 p-30 border-radius cart-totals">
+                                    <div class="heading_s1 mb-3">
+                                        <h4>Cart Totals</h4>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                
+                                                <tr>
+                                                    <td class="cart_total_label">Cart Subtotal</td>
+                                                    <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">₹<%=subt.toLocaleString('en-IN') %>  </span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Shipping</td>
+                                                    <td class="cart_total_amount"> <i class="ti-gift mr-5"></i> Free Shipping</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Total</td>
+                                                    <td class="cart_total_amount"><strong><span class="font-xl fw-900 text-brand">₹<%=subt.toLocaleString('en-IN') %></span></strong></td>
+                                                </tr>
+                                            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <a href="/checkout" class="btn "> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+   <% } %>    
+   
+</main>
+
+
+
+<!-- <script>
+
+
+  function changeqty(count,pid){
+
+    let count1 = document.getElementById('qtyy').value
+
+    console.log("WOOORD");
+
+    $.ajax({
+        url:"/cartupdate",
+        type:"post",
+        data:{qty:count1,pid:pid},
+        success:(response)=>{
+            
+
+        }
+
+    })
+
+
+    location.reload()
+
+
+  }
+
+  
+</script> -->
+
+<script>
+function changeqty(count,pid,event) {
+  let count1 = event.target.value;
+
+  $.ajax({
+    url: "/cartupdate",
+    type: "post",
+    data: { qty: count1, pid: pid },
+    success: function(response) {
+      console.log(response); // Log response data
+      location.reload();
+    },
+    error: function(xhr, status, error) {
+      console.log(xhr.responseText); // Log error message
+    }
+  });
+}
+
+</script>
+
+
+
+
+<%- include('../partials/user-footer') %>

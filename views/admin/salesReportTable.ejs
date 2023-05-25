@@ -1,0 +1,166 @@
+<%- include('../partials/adminHeader') %>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+
+
+
+    <script src="    https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+
+
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Sales Report </h2>
+                <button type="button" onclick="exportPdf()" class="btn btn-primary">Download Report</button>
+                <!-- <button type="button" onclick="ExportToExcel('csv')" class="btn btn-primary">Export To CSV</button> -->
+
+                <!-- <p>List of all products</p> -->
+
+            </div>
+
+
+
+
+        </div>
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="table">
+
+                        <thead>
+
+                            <tr>
+                                <th scope="col">#</th>
+                                <th>Order ID</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Payment Status</th>
+                                <th scope="col">Payment Method</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <% let x=1 %>
+                                <% data.forEach(element=> { %>
+
+
+                                    <tr>
+                                        <td>
+                                            <%=x++ %>
+                                        </td>
+                                        <td>
+                                            <%=element._id %>
+                                        </td>
+
+                                        <% let date=element.date+"" %>
+                                            <td>
+                                                <%=date.substring(0,16) %>
+                                            </td>
+                                            <td>
+                                                <%=element.amount %>
+                                            </td>
+                                            <td>
+                                                <%=element.paymentStatus %>
+                                            </td>
+                                            <td>
+                                                <%=element.payment %>
+                                            </td>
+
+
+
+
+
+                                    </tr>
+                                    <% }) %>
+
+
+
+                        </tbody>
+
+                    </table>
+                    <% if (data.length==0) { %>
+                        <center>
+                            <p>No Data Found</p>
+                        </center>
+                        <% } %>
+
+                </div> <!-- table-responsive //end -->
+            </div> <!-- card-body end// -->
+        </div> <!-- card end// -->
+
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+
+    <script>
+        function hide(id) {
+            setTimeout(() => {
+                document.getElementById(id).style.display = "none"
+            }, 1300)
+        }
+
+        hide('alert')
+    </script>
+
+    <script>
+        function exportPdf() {
+            var pdf = new jsPDF();
+
+
+
+
+
+
+
+            pdf.text(85, 10, "COSMOS \n\n Sales Report");
+            pdf.autoTable({
+                html: '#table',
+                startY: 25,
+                theme: 'grid',
+                columnStyles: {
+
+
+                },
+
+                bodyStyles: { lineColor: [1, 1, 1] },
+
+                styles: { minCellHeight: 10 }
+
+            });
+            window.open(URL.createObjectURL(pdf.output("blob")))
+        }
+    </script>
+
+
+
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('table');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('SalesReport.' + (type || 'csv')));
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+    <%- include('../partials/admin-footer') %>

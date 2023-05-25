@@ -1,0 +1,278 @@
+<%- include('../partials/adminHeader') %>
+
+    <section class="content-main">
+        <form action="/admin/add_product" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Product</h2>
+
+                        <% if (locals.added) { %>
+                            <!-- <p class="text-success">Product added</p> -->
+                            <div class="alert alert-success" role="alert" id="alert">
+                                New product successfully added!
+                            </div>
+                            <% } %>
+
+                                <div></div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Basic</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Product title</label>
+                                <input type="text" placeholder="Title" class="form-control" name="title" id="title"
+                                    required />
+                                <div id="titleError" class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Full description</label>
+                                <textarea name="description" placeholder="Description" class="form-control"
+                                    id="description" rows="4" required></textarea>
+                                <div id="descriptionError" class="invalid-feedback"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-4">
+                                        <label class="form-label">Price</label>
+                                        <div class="row gx-2">
+                                            <input placeholder="₹" type="text" name="price" id="price"
+                                                class="form-control" required />
+                                            <div id="priceError" class="invalid-feedback"></div>
+                                        </div>
+
+                                        <br />
+                                        <label class="form-label">Quantity</label>
+                                        <div class="row gx-2">
+                                            <input placeholder="" type="text" name="stock" id="stock"
+                                                class="form-control" required />
+                                            <div id="stockError" class="invalid-feedback"></div>
+                                        </div>
+                                        <br />
+                                        <label class="form-label">Category</label>
+                                        <select class="form-select" name="category" required>
+                                            <% data.forEach(element=> { %>
+                                                <option>
+                                                    <%=element.name %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                        <div id="categoryError" class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4"></div>
+                            </div>
+
+                            <button type="submit" onclick="return validateForm()"
+                                class="btn btn-md rounded font-sm hover-up">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    <!-- card end// -->
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <img src="/admin-assets/imgs/theme/upload.svg" alt="" id="img1" />
+                                <!-- <input class="form-control" name="image1" type="file" multiple> -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- card end// -->
+
+                    <!-- card end// -->
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                        </div>
+                        <div class=" mb-4 input-upload">
+                            <label for="id_image"></label><br>
+                            <img src="/admin-assets/imgs/theme/upload.svg" alt="" id="img2">
+                            <input class="form-control" onchange="function5(event)" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal" type="file" id="id_image" name="image" accept="image/*"
+                                multiple><br>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <img src="/admin-assets/imgs/theme/upload.svg" alt="" id="img3" />
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- card end// -->
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <img src="/admin-assets/imgs/theme/upload.svg" alt="" id="img4" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <div class="modal-header border-bottom-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row" id="test">
+                        </div>
+                    </div>
+                    <div class="modal-header text-center">
+                        <button class="btn btn-success" type="button" data-bs-dismiss="modal" aria-label="Close">Save
+                            Changes</button>
+                    </div>
+                </div>
+                   
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function hideDiv() {
+            document.getElementById("alert").style.display = "none";
+        }
+
+        setTimeout(hideDiv, 1000); // Hide the div after 3 seconds (3000 milliseconds)
+        function function5(event) {
+            document.getElementById("img1").src = URL.createObjectURL(
+                event.target.files[0]
+            );
+            document.getElementById("img2").src = URL.createObjectURL(
+                event.target.files[1]
+            );
+            document.getElementById("img3").src = URL.createObjectURL(
+                event.target.files[2]
+            );
+            document.getElementById("img4").src = URL.createObjectURL(
+                event.target.files[3]
+            );
+        }
+    </script>
+
+    <script>
+        const input = document.getElementById('id_image')
+        const test = document.getElementById('test')
+        input.addEventListener('change', () => {
+            // Getting image file object from the input variable
+            const img_data = []
+            const imagebox = []
+            const crop_btn = []
+            const confirm_btn = []
+            const url = []
+            const length = input.files.length
+            for (i = 0; i < length; i++) {
+                test.innerHTML += `<div class="col-4"><div id="image-box${i}" class="image-container" style="height: 350px; width: 350px;"> </div>
+    <button class="btn btn-outline-info" id="crop-btn${i}" style="width: 100%; margin-top: 10px; display: block;" type="button">Crop</button> </div>`
+            }
+            for (i = 0; i < length; i++) {
+                img_data[i] = input.files[i]
+            }
+
+            img_data.forEach((image_data, i) => {
+                url[i] = URL.createObjectURL(image_data)
+            })
+            // createObjectURL() static method creates a DOMString containing a URL representing the object given in the parameter.
+            // The new object URL represents the specified File object or Blob object.
+            url.forEach((url, i) => {
+                document.getElementById('image-box' + i).innerHTML = `<img src="${url}" id="image${i}" style="width:100%;">`
+            })
+
+            // Creating a image tag inside imagebox which will hold the cropping view image(uploaded file) to it using the url created before.
+
+            // Storing that cropping view image in a variable
+
+
+            // Displaying the image box
+            for (i = 0; i < length; i++) {
+                document.getElementById('image-box' + i).style.display = 'block'
+                document.getElementById('crop-btn' + i).style.display = 'block'
+            }
+
+
+            for (i = 0; i < length; i++) {
+                cropper(img_data[i], document.getElementById('image' + i), i, document.getElementById('crop-btn' + i), document.getElementById('image-box' + i))
+            }
+
+
+
+            // Creating a croper object with the cropping view image
+            // The new Cropper() method will do all the magic and diplay the cropping view and adding cropping functionality on the website
+            // For more settings, check out their official documentation at https://github.com/fengyuanchen/cropperjs
+            let container = new DataTransfer();
+            let fileInputElement = document.getElementById('id_image');
+
+
+
+            function cropper(img_data, image, index, crop_btn, imagebox) {
+
+                const cropper = new Cropper(image, {
+                    autoCropArea: 1,
+                    viewMode: 1,
+                    scalable: false,
+                    zoomable: false,
+                    movable: false,
+                    minCropBoxWidth: 50,
+                    minCropBoxHeight: 50,
+                })
+
+                // When crop button is clicked this event will get triggered
+                crop_btn.addEventListener('click', () => {
+                    // This method coverts the selected cropped image on the cropper canvas into a blob object
+                    cropper.getCroppedCanvas().toBlob((blob) => {
+
+                        // Gets the original image data
+                        // Make a new cropped image file using that blob object, image_data.name will make the new file name same as original image
+                        let file = new File([blob], img_data.name, { type: "image/*", lastModified: new Date().getTime() });
+                        // Create a new container
+
+                        // Add the cropped image file to the container
+                        container.items.add(file);
+
+                        fileInputElement.files = container.files
+
+                        // Replace the original image file with the new cropped image file
+
+
+
+                        // Hide the cropper box
+                        imagebox.style.display = 'none'
+                        // Hide the crop button
+                        crop_btn.style.display = 'none'
+                    });
+                });
+            }
+        });
+    </script>
+    <%- include('../partials/admin-footer') %>

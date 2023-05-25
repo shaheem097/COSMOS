@@ -1,0 +1,69 @@
+<%- include('../partials/adminHeader') %>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <script>
+    var $j = jQuery.noConflict();
+    $j(document).ready(function () {
+      $j('#ordersTable').DataTable();
+    });
+  </script>
+
+  <section style="margin-top: 60px; margin-bottom: 60px;">
+    <div class="container">
+      <table class="table mt-5" id="ordersTable" style="border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th scope="col">Order</th>
+
+            <th scope="col">Date</th>
+            <th scope="col">Payment</th>
+            <th scope="col">paymentStatus</th>
+            <th scope="col">OrderStatus</th>
+
+            <th scope="col" style="text-align: end;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orders.forEach(element=> { %>
+            <% let date=element.date+"" %>
+              <tr>
+                <td>
+                  <%= element.orderid %>
+                </td>
+
+                <td>
+                  <%=date.substring(0,16).concat('...')%>
+                </td>
+                <td>
+                  <%=element.payment %>
+                </td>
+                <td>
+                  <%=element.paymentStatus %>
+                </td>
+                <td>
+                  <%=element.orderStatus %>
+                </td>
+
+
+                <td>
+                  <a href="/admin/editorder/<%= element._id %>" class="btn btn-primary"
+                    style="background-color: mediumblue; border: none; border-radius: 20px; padding: 6px 18px; color: whitesmoke; font-size: 15px;">ViewMore</a>
+
+                </td>
+              </tr>
+              <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script>
+    var $j = jQuery.noConflict();
+    $j(document).ready(function () {
+      $j('#ordersTable').DataTable();
+    });
+
+  </script>
+
+  <%- include('../partials/admin-footer') %>
