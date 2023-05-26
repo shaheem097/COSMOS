@@ -71,6 +71,16 @@ module.exports = {
     }
   },
 
+  adminsignup:(req,res)=>
+  {
+    if(req.session.admin){
+      res.redirect('/signup')
+    }else{
+      res.render('admin/signup')
+    }
+    
+  },
+
   adminlogin: (req, res) => {
     if (req.session.admin) {
       res.redirect("/admin");
@@ -96,6 +106,17 @@ module.exports = {
         res.redirect("/admin/login");
       }
     });
+  },
+  postadminsignup:(req,res)=>{
+    console.log("cminnggggggggg");
+    adminHelper.postsignup(req.body).then((response)=>{
+      console.log(response);
+      if(response.exemail){
+        res.redirect('/signup')
+      }else{
+        res.redirect('/admin/login')
+      }
+    })
   },
 
   adminlogout: (req, res) => {

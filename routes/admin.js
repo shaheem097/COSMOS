@@ -13,6 +13,12 @@ const multer=require('../helpers/multer')
 
 
 
+/* GET admin signup */
+router.get('/signup',adminlogin.adminsignup)
+
+// /Post admin signup
+router.post('/signup-submit',adminlogin.postadminsignup)
+
 /* GET users listing. */
 router.get('/',adminlogin.admindashboard)
 

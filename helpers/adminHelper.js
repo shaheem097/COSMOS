@@ -21,6 +21,23 @@ module.exports = {
       });
     });
   },
+  postsignup:(admindata)=>{
+    return new Promise((resolve, reject) => {
+      Admin.findOne({Name:admindata.email}).then((namecheck)=>{
+        if(namecheck){
+          resolve({exemail:true});
+        }else{
+          const admin=new Admin({
+            Name:admindata.email,
+            Password:admindata.password
+          })
+          admin.save().then((admincreated)=>{
+            resolve({admincreated})
+          });
+        }
+      })
+    })
+  },
   addcategory: (data) => {
     return new Promise((resolve, reject) => {
       Category.find({ name: data.name }).then((valid) => {

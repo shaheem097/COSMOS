@@ -102,9 +102,7 @@
       <p style="visibility: hidden" id="days">
         <%= JSON.stringify(locals.ordersPerDay) %>
       </p>
-      <p style="visibility: hidden" id="payment">
-        <%=JSON.stringify(locals.paymentCount) %>
-      </p>
+     
     </div>
 
   </section>
@@ -112,7 +110,7 @@
 
   <script>
     document.write(new Date());
-
+    
     // Sample data
     var xValues = [
       'Sunday',
@@ -126,7 +124,7 @@
     var yValues = [0, 5, 10, 15, 20, 25, 50];
     var buyed = [];
     let daysData = JSON.parse(document.getElementById('days').innerHTML);
-
+    console.log(daysData,'ssssssss')
     for (let i = 0; i < xValues.length; i++) {
       if (xValues[i] in daysData) {
         buyed.push(daysData[xValues[i]]);
@@ -134,7 +132,7 @@
         buyed.push(0);
       }
     }
-
+ console.log(buyed,'oipuu')
     new Chart('myChart1', {
       type: 'bar',
       data: {
@@ -158,33 +156,7 @@
       },
     });
 
-    var xValue = ['ONLINE', 'COD'];
-    var yValue = [];
-    let paymentData = JSON.parse(document.getElementById('payment').innerHTML);
-    yValue.push(paymentData[0]);
-    yValue.push(paymentData[1]);
-
-
-    var barColors = ['#27968B', 'grey'];
-
-    new Chart('myChart2', {
-      type: 'pie',
-      data: {
-        labels: xValue,
-        datasets: [
-          {
-            backgroundColor: barColors,
-            data: yValue,
-          },
-        ],
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Payment mode',
-        },
-      },
-    });
+   
   </script>
 
   <%- include('../partials/admin-footer') %>
