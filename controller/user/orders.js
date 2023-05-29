@@ -104,10 +104,10 @@ module.exports = {
           if (req.session.razorpay) {
             let oid = req.session.razororderId;
             userHelper.changePaymentStatus(oid).then(() => {
-              res.redirect("/profile");
+              // res.redirect("/profile");
             });
           } else {
-            res.redirect("/profile");
+            // res.redirect("/profile");
           }
           res.redirect("/profile");
         });
