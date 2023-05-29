@@ -87,6 +87,9 @@ router.post('/placeorder',userAuth.userAuth,userorders.placeorder)
 /* GET clear . */
 router.get('/clear',userAuth.userAuth,userorders.clear);
 
+/* GET clear . */
+router.get('/clear1',userAuth.userAuth,userorders.clear);
+
 //Get Order Placed
 router.get('/orderplaced',userAuth.userAuth,userorders.orderplaced)
 

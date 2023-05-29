@@ -208,7 +208,7 @@ module.exports = {
             }
             else
             {
-              res.redirect('/clear')
+              res.redirect('/clear1')
             }
           });
       });
