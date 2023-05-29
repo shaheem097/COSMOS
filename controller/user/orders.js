@@ -109,7 +109,7 @@ module.exports = {
           } else {
             // res.redirect("/profile");
           }
-          res.redirect("/profile");
+          res.redirect("/");
         });
       });
     });
