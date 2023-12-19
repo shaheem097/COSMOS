@@ -5,6 +5,8 @@ const Product = require("../model/product-schema");
 const Order = require("../model/order-schema");
 const Coupon = require("../model/coupon");
 const Banner = require("../model/banner-schema");
+
+
 module.exports = {
   adminlogin: (data) => {
     return new Promise((resolve, reject) => {
@@ -56,7 +58,7 @@ module.exports = {
       });
     });
   },
-  getcategory: () => {
+   getcategory: () => {
     return new Promise((resolve, reject) => {
       Category.find({}).then((data) => {
         resolve(data);

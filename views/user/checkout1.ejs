@@ -430,11 +430,7 @@ function verifyPayment(payment, order) {
     image: "/public/assets/imgs/theme/logo.jpg",
     order_id: `${orderInfo.id}`, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
     handler: function (response) {
-    //   swal(response.razorpay_payment_id).then(() => {
-    //     swal(response.razorpay_order_id).then(() => {
-    //       swal(response.razorpay_order_id);
-    //     });
-    //   });
+  
 
       verifyPayment(response , orderInfo.order);
       console.log(response);

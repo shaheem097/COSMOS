@@ -62,7 +62,7 @@ module.exports = {
 
               userHelper.findWallet(uid).then((wal) => {
                 let wa = Number(wal.WalletAmount);
-                res.render("user/checkout", {
+                res.render("user/checkout1", {
                   wa,
                   data,
                   address,
